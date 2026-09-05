@@ -1,13 +1,13 @@
-public class Camping{
-    private String id;
-    private String nombre;
-    private int capacidad;
-    private double tarifa;
+public class Camping extends Recurso {
 
-    public Camping(String i, String n, int c, double t){
-        id = i;
-        nombre = n;
-        capacidad = c;
-        tarifa = t;
+    private boolean tieneAguaPotable;
+
+    public Camping(String n, int c, boolean agua) {
+        super(n, c);
+        tieneAguaPotable = agua;
+    }
+
+    public boolean getTieneAguaPotable() {
+        return tieneAguaPotable;
     }
 }

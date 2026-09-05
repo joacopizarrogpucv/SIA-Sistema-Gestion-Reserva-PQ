@@ -1,15 +1,19 @@
-public class Actividad{
-    private String id;
-    private String nombre;
-    private String descripcion;
-    private int capacidad;
-    private double tarifa;
+public class Actividad extends Recurso {
 
-    public Actividad(String i, String n; String d, int c, double t){
-        id = i;
-        nombre = n;
-        descripcion = d;
-        capacidad = c;
-        tarifa = t;
+    private String guia;
+    private int duracion;
+
+    public Actividad(String n, int c, String g, int d) {
+        super(n, c);
+        guia = g;
+        duracion = d;
+    }
+
+    public String getGuia() {
+        return guia;
+    }
+
+    public int getDuracion() {
+        return duracion;
     }
 }

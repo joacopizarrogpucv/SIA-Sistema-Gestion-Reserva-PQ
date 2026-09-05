@@ -1,13 +1,13 @@
-public class Cabana{
-    private String id;
-    private String nombre;
-    private int capacidad;
-    private double tarifa;
+public class Cabana extends Recurso {
 
-    public Cabana(String i, String n, int c, double t){
-        id = i;
-        nombre = n;
-        capacidad = c;
-        tarifa = t;
+    private int cantidadHabitaciones;
+
+    public Cabana(String n, int c, int habitaciones) {
+        super(n, c);
+        cantidadHabitaciones = habitaciones;
+    }
+
+    public int getCantidadHabitaciones() {
+        return cantidadHabitaciones;
     }
 }
