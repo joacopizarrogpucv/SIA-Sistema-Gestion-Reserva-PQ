@@ -19,4 +19,8 @@ public class Tarifa {
         return precio;
     }
 
+    public void setPrecio(double p) {
+        precio = p;
+    }
+
 }
