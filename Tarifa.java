@@ -1,5 +1,4 @@
 public class Tarifa {
-
     private double precio;
 
     public Tarifa(double p) {
@@ -7,7 +6,13 @@ public class Tarifa {
     }
 
     public double calcular(Recurso recurso) {
-        return precio;
+        // Las actividades tienen un precio fijo.
+        // Cabañas y campings multiplican por su capacidad.
+        if (recurso instanceof Actividad) {
+            return precio;
+        }
+
+        return precio * recurso.getCapacidad();
     }
 
     public double getPrecio() {

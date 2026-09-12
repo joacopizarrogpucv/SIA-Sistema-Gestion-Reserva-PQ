@@ -2,10 +2,8 @@ import java.util.Map;
 import java.util.HashMap;
 
 public class Usuario {
-
     private String nombre;
     private String rut;
-
     private Map<String, Reserva> reservas;
 
     public Usuario(String n, String r) {
@@ -23,7 +21,6 @@ public class Usuario {
     }
 
     public boolean realizarReserva(Reserva r) {
-
         if (reservas.containsKey(r.getId())) {
             return false;
         }
