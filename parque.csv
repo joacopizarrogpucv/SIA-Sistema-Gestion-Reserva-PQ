@@ -1,0 +1,11 @@
+tipo;nombre;capacidad;dato1;dato2
+PARQUE;Parque PUCV;;Valparaiso;
+CABANA;Bosque Norte;6;3;
+CABANA;Mirador Sur;4;2;
+CABANA;Costa Azul;8;4;
+CAMPING;Camping A;6;true;
+CAMPING;Camping B;4;false;
+CAMPING;Camping C;8;true;
+ACTIVIDAD;Senderismo;10;Juan Perez;70
+ACTIVIDAD;Kayak;8;Maria Soto;70
+ACTIVIDAD;Observacion de Aves;12;Pedro Rojas;60
