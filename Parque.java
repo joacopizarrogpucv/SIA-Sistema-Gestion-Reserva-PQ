@@ -127,11 +127,160 @@ public class Parque {
         return actividades.size();
     }
 
+    public boolean cambiarHorarioActividad(String id,
+                                           int horaInicio, int minutoInicio,
+                                           int horaFin, int minutoFin) {
+        Reserva r = reservas.get(id);
+
+        if (r == null || !(r.getRecurso() instanceof Actividad)) {
+            return false;
+        }
+
+        Actividad actividad = (Actividad) r.getRecurso();
+
+        int nuevoInicio = horaInicio * 60 + minutoInicio;
+        int nuevoFin = horaFin * 60 + minutoFin;
+
+        if (nuevoFin <= nuevoInicio) {
+            return false;
+        }
+
+        if (actividad.horarioOcupado(
+                r.getMesInicio(),
+                r.getDiaInicio(),
+                nuevoInicio,
+                nuevoFin,
+                r)) {
+            return false;
+        }
+
+        actividad.eliminarReserva(r);
+        r.cambiarHorario(horaInicio, minutoInicio, horaFin, minutoFin);
+        actividad.agregarReserva(r);
+
+        return true;
+    }
+
+    private int diasDelMes(int mes) {
+        if (mes == 2) {
+            return 28;
+        }
+
+        if (mes == 4 || mes == 6 || mes == 9 || mes == 11) {
+            return 30;
+        }
+
+        return 31;
+    }
+
     // Metodos reserva
     public boolean agregarReserva(Reserva r) {
-
         if (reservas.containsKey(r.getId())) {
             return false;
+        }
+
+        Recurso recurso = r.getRecurso();
+
+        // Actividad: se revisa que no exista choque de horario
+        if (recurso instanceof Actividad) {
+            Actividad actividad = (Actividad) recurso;
+
+            if (r.getMinutoFin() <= r.getMinutoInicio()) {
+                return false;
+            }
+
+            if (actividad.horarioOcupado(
+                    r.getMesInicio(),
+                    r.getDiaInicio(),
+                    r.getMinutoInicio(),
+                    r.getMinutoFin(),
+                    null)) {
+                return false;
+            }
+
+            actividad.agregarReserva(r);
+        }
+
+        // Cabana: todos los dias del periodo deben estar libres
+        else if (recurso instanceof Cabana) {
+            Cabana cabana = (Cabana) recurso;
+
+            for (int mes = r.getMesInicio(); mes <= r.getMesFin(); mes++) {
+                int inicio = 1;
+                int fin = diasDelMes(mes);
+
+                if (mes == r.getMesInicio()) {
+                    inicio = r.getDiaInicio();
+                }
+
+                if (mes == r.getMesFin()) {
+                    fin = r.getDiaFin();
+                }
+
+                for (int dia = inicio; dia <= fin; dia++) {
+                    if (cabana.diaOcupado(mes, dia)) {
+                        return false;
+                    }
+                }
+            }
+
+            for (int mes = r.getMesInicio(); mes <= r.getMesFin(); mes++) {
+                int inicio = 1;
+                int fin = diasDelMes(mes);
+
+                if (mes == r.getMesInicio()) {
+                    inicio = r.getDiaInicio();
+                }
+
+                if (mes == r.getMesFin()) {
+                    fin = r.getDiaFin();
+                }
+
+                for (int dia = inicio; dia <= fin; dia++) {
+                    cabana.ocuparDia(mes, dia);
+                }
+            }
+        }
+
+        // Camping: todos los dias del periodo deben estar libres
+        else if (recurso instanceof Camping) {
+            Camping camping = (Camping) recurso;
+
+            for (int mes = r.getMesInicio(); mes <= r.getMesFin(); mes++) {
+                int inicio = 1;
+                int fin = diasDelMes(mes);
+
+                if (mes == r.getMesInicio()) {
+                    inicio = r.getDiaInicio();
+                }
+
+                if (mes == r.getMesFin()) {
+                    fin = r.getDiaFin();
+                }
+
+                for (int dia = inicio; dia <= fin; dia++) {
+                    if (camping.diaOcupado(mes, dia)) {
+                        return false;
+                    }
+                }
+            }
+
+            for (int mes = r.getMesInicio(); mes <= r.getMesFin(); mes++) {
+                int inicio = 1;
+                int fin = diasDelMes(mes);
+
+                if (mes == r.getMesInicio()) {
+                    inicio = r.getDiaInicio();
+                }
+
+                if (mes == r.getMesFin()) {
+                    fin = r.getDiaFin();
+                }
+
+                for (int dia = inicio; dia <= fin; dia++) {
+                    camping.ocuparDia(mes, dia);
+                }
+            }
         }
 
         reservas.put(r.getId(), r);
@@ -143,9 +292,58 @@ public class Parque {
     }
 
     public boolean cancelarReserva(String id) {
+        Reserva r = reservas.get(id);
 
-        if (!reservas.containsKey(id)) {
+        if (r == null) {
             return false;
+        }
+
+        Recurso recurso = r.getRecurso();
+
+        if (recurso instanceof Actividad) {
+            ((Actividad) recurso).eliminarReserva(r);
+        }
+
+        else if (recurso instanceof Cabana) {
+            Cabana cabana = (Cabana) recurso;
+
+            for (int mes = r.getMesInicio(); mes <= r.getMesFin(); mes++) {
+                int inicio = 1;
+                int fin = diasDelMes(mes);
+
+                if (mes == r.getMesInicio()) {
+                    inicio = r.getDiaInicio();
+                }
+
+                if (mes == r.getMesFin()) {
+                    fin = r.getDiaFin();
+                }
+
+                for (int dia = inicio; dia <= fin; dia++) {
+                    cabana.liberarDia(mes, dia);
+                }
+            }
+        }
+
+        else if (recurso instanceof Camping) {
+            Camping camping = (Camping) recurso;
+
+            for (int mes = r.getMesInicio(); mes <= r.getMesFin(); mes++) {
+                int inicio = 1;
+                int fin = diasDelMes(mes);
+
+                if (mes == r.getMesInicio()) {
+                    inicio = r.getDiaInicio();
+                }
+
+                if (mes == r.getMesFin()) {
+                    fin = r.getDiaFin();
+                }
+
+                for (int dia = inicio; dia <= fin; dia++) {
+                    camping.liberarDia(mes, dia);
+                }
+            }
         }
 
         reservas.remove(id);
