@@ -19,4 +19,16 @@ public class Reserva {
     public String getId() {
         return id;
     }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public Recurso getRecurso() {
+        return recurso;
+    }
+
+    public Tarifa getTarifa() {
+        return tarifa;
+    }
 }

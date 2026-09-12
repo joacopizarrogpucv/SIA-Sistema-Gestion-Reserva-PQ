@@ -10,4 +10,8 @@ public class Cabana extends Recurso {
     public int getCantidadHabitaciones() {
         return cantidadHabitaciones;
     }
+
+    public void setCantidadHabitaciones(int habitaciones) {
+        cantidadHabitaciones = habitaciones;
+    }
 }

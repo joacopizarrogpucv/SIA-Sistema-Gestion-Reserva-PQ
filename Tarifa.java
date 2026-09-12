@@ -13,4 +13,8 @@ public class Tarifa {
     public double getPrecio() {
         return precio;
     }
+
+    public void setPrecio(double p) {
+        precio = p;
+    }
 }

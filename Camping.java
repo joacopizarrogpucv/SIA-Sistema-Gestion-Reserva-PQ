@@ -10,4 +10,8 @@ public class Camping extends Recurso {
     public boolean getTieneAguaPotable() {
         return tieneAguaPotable;
     }
+
+    public void setTieneAguaPotable(boolean agua) {
+        tieneAguaPotable = agua;
+    }
 }

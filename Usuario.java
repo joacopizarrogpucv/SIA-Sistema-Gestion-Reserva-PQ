@@ -37,11 +37,20 @@ public class Usuario {
     }
 
     public boolean cancelarReserva(String id) {
+
         if (!reservas.containsKey(id)) {
             return false;
         }
 
         reservas.remove(id);
         return true;
+    }
+
+    public int cantidadReservas() {
+        return reservas.size();
+    }
+
+    public boolean tieneReserva(String id) {
+        return reservas.containsKey(id);
     }
 }

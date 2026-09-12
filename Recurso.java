@@ -1,13 +1,18 @@
 public abstract class Recurso {
-    //variables
+
+    // Variables
     private String nombre;
     private int capacidad;
-    //constructor
+    private int ocupacion;
+
+    // Constructor
     public Recurso(String n, int c) {
         nombre = n;
         capacidad = c;
+        ocupacion = 0;
     }
-    //getter
+
+    // Getters
     public String getNombre() {
         return nombre;
     }
@@ -15,8 +20,32 @@ public abstract class Recurso {
     public int getCapacidad() {
         return capacidad;
     }
-    //metodo
+
+    public int getOcupacion() {
+        return ocupacion;
+    }
+
+    // Metodos
     public boolean hayDisponibilidad(int cantidad) {
-        return cantidad <= capacidad;
+        return ocupacion + cantidad <= capacidad;
+    }
+
+    public boolean reservar(int cantidad) {
+
+        if (!hayDisponibilidad(cantidad)) {
+            return false;
+        }
+
+        ocupacion += cantidad;
+        return true;
+    }
+
+    public void liberar(int cantidad) {
+
+        ocupacion -= cantidad;
+
+        if (ocupacion < 0) {
+            ocupacion = 0;
+        }
     }
 }

@@ -15,4 +15,12 @@ public class Permiso {
     public boolean estaAprobado() {
         return aprobado;
     }
+
+    public void aprobar() {
+        aprobado = true;
+    }
+
+    public void rechazar() {
+        aprobado = false;
+    }
 }
