@@ -18,5 +18,8 @@ public class Tarifa {
     public double getPrecio() {
         return precio;
     }
+    public double setPrecio() {
+        return precio;
+    }
 
 }
