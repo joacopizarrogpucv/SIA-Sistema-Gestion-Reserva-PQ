@@ -13,7 +13,15 @@ public class Actividad extends Recurso {
         return guia;
     }
 
+    public void setGuia(String g) {
+        guia = g;
+    }
+
     public int getDuracion() {
         return duracion;
+    }
+
+    public void setDuracion(int d) {
+        duracion = d;
     }
 }

@@ -18,4 +18,5 @@ public class Tarifa {
     public double getPrecio() {
         return precio;
     }
+
 }
