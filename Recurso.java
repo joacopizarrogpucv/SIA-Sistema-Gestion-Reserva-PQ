@@ -1,3 +1,7 @@
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.HashMap;
+
 public abstract class Recurso {
     //variables
     private String nombre;
