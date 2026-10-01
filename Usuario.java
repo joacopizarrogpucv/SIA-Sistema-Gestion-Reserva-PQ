@@ -4,23 +4,26 @@ import java.util.HashMap;
 public class Usuario {
     private String nombre;
     private String rut;
-    private Map<String, Reserva> reservas;
+    private int cantidad;
 
-    public Usuario(String n, String r) {
+    private Map<String, Recurso> reservas;
+
+    public Usuario(String n, String r, int c) {
         nombre = n;
         rut = r;
-        reservas = new HashMap<String, Reserva>();
+        cantidad = c;
+        reservas = new HashMap<String, Recurso>();
     }
-
     public String getNombre() {
         return nombre;
     }
-
     public String getRut() {
         return rut;
     }
-
-    public boolean realizarReserva(Reserva r) {
+    public int getCantidad() {
+        return cantidad;
+    }
+    public boolean realizarReserva(Recurso r) {
         if (reservas.containsKey(r.getId())) {
             return false;
         }
@@ -28,11 +31,9 @@ public class Usuario {
         reservas.put(r.getId(), r);
         return true;
     }
-
-    public Reserva buscarReserva(String id) {
+    public Recurso buscarReserva(String id) {
         return reservas.get(id);
     }
-
     public boolean cancelarReserva(String id) {
 
         if (!reservas.containsKey(id)) {
@@ -42,12 +43,7 @@ public class Usuario {
         reservas.remove(id);
         return true;
     }
-
     public int cantidadReservas() {
         return reservas.size();
-    }
-
-    public boolean tieneReserva(String id) {
-        return reservas.containsKey(id);
     }
 }
