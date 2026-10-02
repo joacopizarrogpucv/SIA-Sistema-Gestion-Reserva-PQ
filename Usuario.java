@@ -1,17 +1,17 @@
 import java.util.Map;
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.util.HashMap;
 
 public class Usuario {
     private String nombre;
     private String rut;
-    private int cantidad;
 
     private Map<String, Reserva> reservas;
 
-    public Usuario(String n, String r, int c) {
+    public Usuario(String n, String r) {
         nombre = n;
         rut = r;
-        cantidad = c;
         reservas = new HashMap<String, Reserva>();
     }
     public String getNombre() {
@@ -20,11 +20,9 @@ public class Usuario {
     public String getRut() {
         return rut;
     }
-    public int getCantidad() {
-        return cantidad;
-    }
+
     //RESERVA
-    public boolean realizarReserva(Recurso r) {
+    public boolean realizarReserva(Recurso r, int cantidad) {
         if (reservas.containsKey(r.getId())) {
             return false;
         }
@@ -52,6 +50,5 @@ public class Usuario {
     public void mostrarUsuario(){
         System.out.println("Nombre: " + nombre);
         System.out.println("RUT: " + rut);
-        System.out.println("Tamaño de grupo: " + cantidad);
     }
 }

@@ -76,16 +76,19 @@ public class MenuConsola {
         if (recurso == null) {
             System.out.println("No existe ese recurso.");
         }
-        else if (!recurso.hayDisponibilidad(usuarioActual.getCantidad())) {
+        else{
+            System.out.println("Ingrese la cantidad de personas que van:");
+            int cantidad = Integer.parseInt(br.readLine());
+            if (!recurso.hayDisponibilidad(cantidad)) {
             System.out.println("No existe capacidad suficiente.");
+            }
+            else if (usuarioActual.realizarReserva(recurso, cantidad)) {
+                System.out.println("Reserva realizada correctamente.");
+            }
+            else {
+                System.out.println("El usuario ya tiene reservado ese recurso.");
+            }
         }
-        else if (usuarioActual.realizarReserva(recurso)) {
-            System.out.println("Reserva realizada correctamente.");
-        }
-        else {
-            System.out.println("El usuario ya tiene reservado ese recurso.");
-        }
-
         continuar();
     }
 
@@ -196,10 +199,7 @@ public class MenuConsola {
         String nombre = br.readLine();
         System.out.println("Ingrese el RUT del usuario:");
         String rut = br.readLine();
-        System.out.println("Ingrese la cantidad de personas:");
-        int cantidad = Integer.parseInt(br.readLine());
-
-        usuarioActual = new Usuario(nombre, rut, cantidad);
+        usuarioActual = new Usuario(nombre, rut);
         System.out.println("Usuario creado correctamente.");
         continuar();
     }

@@ -5,16 +5,6 @@ import java.io.IOException;
 
 public class Lector {
 
-    /*
-    PARA QUE FUNCIONE EL LECTOR 
-    Parque parque = Lector.leerParque("parque.csv");
-        if (parque == null) {
-            System.out.println("No se pudo cargar el archivo parque.csv.");
-            return;
-        }
-        Lector.leerUsuarios("usuarios.csv", parque);
-        Lector.leerReservas("reservas.csv", parque);
-    */
     public static Parque leerParque(String nombreArchivo) {
         try {
             BufferedReader archivo = new BufferedReader(new FileReader(nombreArchivo));
@@ -27,26 +17,20 @@ public class Lector {
                 if (linea.equals("") || linea.startsWith("#")) {
                     continue;
                 }
-
                 String[] datos = linea.split(";");
-
                 if (datos[0].equalsIgnoreCase("tipo")) {
                     continue;
                 }
-
                 if (datos[0].equalsIgnoreCase("PARQUE")) {
                     parque = new Parque(datos[1], datos[3]);
                 }
-
                 else if (datos[0].equalsIgnoreCase("CABANA")) {
                     String nombre = datos[1];
                     String id = datos[2];
                     int capacidad = Integer.parseInt(datos[3]);
                     int habitaciones = Integer.parseInt(datos[4]);
 
-                    parque.agregarRecurso(
-                        new Cabana(nombre, id, capacidad, habitaciones)
-                    );
+                    parque.agregarRecurso(new Cabana(nombre, id, capacidad, habitaciones));
                 }
 
                 else if (datos[0].equalsIgnoreCase("CAMPING")) {
@@ -55,9 +39,7 @@ public class Lector {
                     int capacidad = Integer.parseInt(datos[3]);
                     boolean piscina = Boolean.parseBoolean(datos[4]);
 
-                    parque.agregarRecurso(
-                        new Camping(nombre, id, capacidad, piscina)
-                    );
+                    parque.agregarRecurso(new Camping(nombre, id, capacidad, piscina));
                 }
 
                 else if (datos[0].equalsIgnoreCase("ACTIVIDAD")) {
@@ -67,12 +49,9 @@ public class Lector {
                     String guia = datos[4];
                     int duracion = Integer.parseInt(datos[5]);
 
-                    parque.agregarRecurso(
-                        new Actividad(nombre, id, capacidad, guia, duracion)
-                    );
+                    parque.agregarRecurso(new Actividad(nombre, id, capacidad, guia, duracion));
                 }
             }
-
             archivo.close();
             return parque;
 
@@ -90,27 +69,19 @@ public class Lector {
         try {
             BufferedReader archivo = new BufferedReader(new FileReader(nombreArchivo));
             String linea;
-
             while ((linea = archivo.readLine()) != null) {
                 linea = linea.trim();
-
                 if (linea.equals("") || linea.startsWith("#")) {
                     continue;
                 }
-
                 String[] datos = linea.split(";");
-
                 if (datos[0].equalsIgnoreCase("tipo")) {
                     continue;
                 }
-
                 if (datos[0].equalsIgnoreCase("USUARIO")) {
                     String nombre = datos[1];
                     String rut = datos[2];
-                    int cantidad = Integer.parseInt(datos[3]);
-
-                    Usuario usuario = new Usuario(nombre, rut, cantidad);
-
+                    Usuario usuario = new Usuario(nombre, rut);
                     parque.agregarUsuario(usuario);
                 }
             }
@@ -129,28 +100,23 @@ public class Lector {
         try {
             BufferedReader archivo = new BufferedReader(new FileReader(nombreArchivo));
             String linea;
-
             while ((linea = archivo.readLine()) != null) {
                 linea = linea.trim();
-
                 if (linea.equals("") || linea.startsWith("#")) {
                     continue;
                 }
 
                 String[] datos = linea.split(";");
-
                 if (datos[0].equalsIgnoreCase("rut")) {
                     continue;
                 }
-
                 String rut = datos[0];
                 String idRecurso = datos[1];
-
+                int cantidad = Integer.parseInt(datos[2]);
                 Usuario usuario = parque.buscarUsuario(rut);
                 Recurso recurso = parque.buscarRecurso(idRecurso);
-
-                if (usuario != null && recurso != null) {
-                    usuario.realizarReserva(recurso);
+                if (usuario != null && recurso != null && cantidad > 0) {
+                    usuario.realizarReserva(recurso, cantidad);
                 }
             }
             archivo.close();
