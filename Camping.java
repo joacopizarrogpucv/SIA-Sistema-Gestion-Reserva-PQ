@@ -14,7 +14,8 @@ public class Camping extends Recurso {
     @Override
     public void mostrarRecurso(){
         System.out.println("Nombre: " + getNombre());
-        System.out.println("Id: " + getId());
+        System.out.println("ID: " + getId());
+        System.out.println("Capacidad: " + getCapacidad() + " personas");
         if(picina){
             System.out.println("Tiene servicio de Picina");
         }

@@ -28,7 +28,14 @@ public class Usuario {
     }
 
     public boolean realizarReserva(Recurso r, int cantidad) {
+        return realizarReserva(r, cantidad, false);
+    }
+
+    public boolean realizarReserva(Recurso r, int cantidad, boolean permisoAprobado) {
         Reserva R = new Reserva(cantidad, r, new Tarifa(200), true);
+        
+        R.getPermiso().setAprobado(permisoAprobado);
+        
         reservas.put(R.getId(), R);
         return true;
     }
@@ -95,5 +102,9 @@ public class Usuario {
 
         reserva.getPermiso().rechazar();
         return true;
+    }
+
+    public Iterable<Reserva> getReservas() {
+        return reservas.values();
     }
 }

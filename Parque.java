@@ -73,4 +73,26 @@ public class Parque {
         usuarios.remove(rut);
         return true;
     }
+
+    public void mostrarRecursosporCapacidad(int cantidadPersonas) {
+        boolean encontrado = false;
+
+        System.out.println("Recursos disponibles para " + cantidadPersonas + " personas:");
+
+        for (Recurso recurso : recursos.values()) {
+            if (recurso.hayDisponibilidad(cantidadPersonas)) {
+                recurso.mostrarRecurso();
+                System.out.println("--------------------");
+                encontrado = true;
+            }
+        }
+
+        if (!encontrado) {
+            System.out.println("No hay recursos disponibles con capacidad suficiente.");
+        }
+    }
+
+    public Iterable<Usuario> getUsuarios() {
+        return usuarios.values();
+    }
 }

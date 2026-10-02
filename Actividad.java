@@ -16,8 +16,9 @@ public class Actividad extends Recurso {
     @Override
     public void mostrarRecurso(){
         System.out.println("Nombre: " + getNombre());
-        System.out.println("Id: " + getId());
-        System.out.println("Guia: " + guia);
+        System.out.println("ID: " + getId());
+        System.out.println("Capacidad: " + getCapacidad() + " personas");
+        System.out.println("Guía: " + guia);
         System.out.println("Duración: " + duracion);
     }
 }

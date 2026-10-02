@@ -17,6 +17,11 @@ public class Main {
         // Luego se crea el menú de consola y se inicia
         MenuConsola menu = new MenuConsola(parque);
         menu.iniciar();
+
+        Escritor.guardarUsuarios("usuario.csv", parque);
+        Escritor.guardarReservas("reservas.csv", parque);
+
+        System.out.println("Datos guardados correctamente.");
     }
 
 }

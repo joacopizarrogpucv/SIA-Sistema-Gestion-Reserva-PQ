@@ -22,7 +22,7 @@ public class Lector {
                     continue;
                 }
                 if (datos[0].equalsIgnoreCase("PARQUE")) {
-                    parque = new Parque(datos[1], datos[3]);
+                    parque = new Parque(datos[1], datos[4]);
                 }
                 else if (datos[0].equalsIgnoreCase("CABANA")) {
                     String nombre = datos[1];
@@ -115,8 +115,14 @@ public class Lector {
                 int cantidad = Integer.parseInt(datos[2]);
                 Usuario usuario = parque.buscarUsuario(rut);
                 Recurso recurso = parque.buscarRecurso(idRecurso);
+                boolean permisoAprobado = false;
+
+                if (datos.length >= 4) {
+                    permisoAprobado = Boolean.parseBoolean(datos[3]);
+                }
+
                 if (usuario != null && recurso != null && cantidad > 0) {
-                    usuario.realizarReserva(recurso, cantidad);
+                    usuario.realizarReserva(recurso, cantidad, permisoAprobado);
                 }
             }
             archivo.close();

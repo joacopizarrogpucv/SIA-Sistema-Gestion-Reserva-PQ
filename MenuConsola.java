@@ -31,7 +31,8 @@ public class MenuConsola {
             System.out.println("4. Ingresar / Crear Usuario");
             System.out.println("5. Gestionar Reservas");
             System.out.println("6. Gestionar Usuarios");
-            System.out.println("7. Salir");
+            System.out.println("7. Buscar Recursos por Capacidad");
+            System.out.println("8. Salir");
             System.out.print("Opcion: ");
 
             opcion = Integer.parseInt(br.readLine());
@@ -55,6 +56,9 @@ public class MenuConsola {
                     gestionarUsuarios();
                     break;
                 case 7:
+                    buscarRecursosPorCapacidad();
+                    break;
+                case 8:
                     limpiarPantalla();
                     System.out.println("Saliendo del programa...");
                     break;
@@ -65,7 +69,7 @@ public class MenuConsola {
                     break;
             }
 
-        } while (opcion != 7);
+        } while (opcion !=8);
     }
 
     private void reservar() throws IOException {
@@ -365,6 +369,17 @@ public class MenuConsola {
         } else {
             System.out.println("Usuario no encontrado.");
         }
+
+        continuar();
+    }
+
+    private void buscarRecursosPorCapacidad() throws IOException {
+        limpiarPantalla();
+
+        System.out.print("Ingrese la cantidad de personas: ");
+        int cantidadPersonas = Integer.parseInt(br.readLine());
+
+        parque.mostrarRecursosporCapacidad(cantidadPersonas);
 
         continuar();
     }

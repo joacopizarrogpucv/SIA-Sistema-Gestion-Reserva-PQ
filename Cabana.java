@@ -11,7 +11,8 @@ public class Cabana extends Recurso {
     @Override
     public void mostrarRecurso(){
         System.out.println("Nombre: " + getNombre());
-        System.out.println("Id: " + getId());
-        System.out.println("habitaciones : " + habitacion);
+        System.out.println("ID: " + getId());
+        System.out.println("Capacidad: " + getCapacidad() + " personas");
+        System.out.println("Habitaciones : " + habitacion);
     }
 }
