@@ -21,15 +21,12 @@ public class Usuario {
         return rut;
     }
 
-    //RESERVA
     public boolean realizarReserva(Recurso r, int cantidad) {
         if (reservas.containsKey(r.getId())) {
             return false;
         }
         Reserva R = new Reserva(cantidad, r, new Tarifa(200), true);
         reservas.put(R.getId(), R);
-        R.mostrarReserva();
-
         return true;
     }
     public Reserva buscarReserva(String id) {
