@@ -6,13 +6,13 @@ public class Usuario {
     private String rut;
     private int cantidad;
 
-    private Map<String, Recurso> reservas;
+    private Map<String, Reserva> reservas;
 
     public Usuario(String n, String r, int c) {
         nombre = n;
         rut = r;
         cantidad = c;
-        reservas = new HashMap<String, Recurso>();
+        reservas = new HashMap<String, Reserva>();
     }
     public String getNombre() {
         return nombre;
@@ -23,15 +23,18 @@ public class Usuario {
     public int getCantidad() {
         return cantidad;
     }
+    //RESERVA
     public boolean realizarReserva(Recurso r) {
         if (reservas.containsKey(r.getId())) {
             return false;
         }
+        Reserva R = new Reserva(cantidad, r, new Tarifa(200), true);
+        reservas.put(r.getId(), R);
+        R.mostrarReserva();
 
-        reservas.put(r.getId(), r);
         return true;
     }
-    public Recurso buscarReserva(String id) {
+    public Reserva buscarReserva(String id) {
         return reservas.get(id);
     }
     public boolean cancelarReserva(String id) {
@@ -45,5 +48,10 @@ public class Usuario {
     }
     public int cantidadReservas() {
         return reservas.size();
+    }
+    public void mostrarUsuario(){
+        System.out.println("Nombre: " + nombre);
+        System.out.println("RUT: " + rut);
+        System.out.println("Tamaño de grupo: " + cantidad);
     }
 }
