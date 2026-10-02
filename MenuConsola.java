@@ -28,8 +28,10 @@ public class MenuConsola {
             System.out.println("1. Reservar");
             System.out.println("2. Cancelar Reserva");
             System.out.println("3. Buscar Recurso");
-            System.out.println("4. Crear Usuario de forma manual");
-            System.out.println("5. Salir");
+            System.out.println("4. Ingresar / Crear Usuario");
+            System.out.println("5. Gestionar Reservas");
+            System.out.println("6. Gestionar Usuarios");
+            System.out.println("7. Salir");
             System.out.print("Opcion: ");
 
             opcion = Integer.parseInt(br.readLine());
@@ -41,24 +43,29 @@ public class MenuConsola {
                     cancelarReserva();
                     break;
                 case 3:
-                    buscarRecursos();
+                    buscarRecurso();
                     break;
                 case 4:
                     crearUsuario();
                     break;
-                
                 case 5:
+                    gestionarReservas();
+                    break;
+                case 6:
+                    gestionarUsuarios();
+                    break;
+                case 7:
                     limpiarPantalla();
                     System.out.println("Saliendo del programa...");
                     break;
-
                 default:
                     limpiarPantalla();
                     System.out.println("Opción no válida.");
+                    continuar();
                     break;
             }
 
-        } while (opcion != 5);
+        } while (opcion != 7);
     }
 
     private void reservar() throws IOException {
@@ -86,7 +93,7 @@ public class MenuConsola {
                 System.out.println("Reserva realizada correctamente.");
             }
             else {
-                System.out.println("El usuario ya tiene reservado ese recurso.");
+                System.out.println("No se pudo realizar la reserva.");
             }
         }
         continuar();
@@ -99,7 +106,7 @@ public class MenuConsola {
             return;
         }
 
-        System.out.print("ID del recurso a cancelar: ");
+        System.out.print("ID de la reserva a cancelar: ");
         String idCancelar = br.readLine();
 
         if (usuarioActual.cancelarReserva(idCancelar)) {
@@ -112,95 +119,253 @@ public class MenuConsola {
         continuar();
     }
 
-    private void buscarRecursos() throws IOException {
-        int opcion;
-        do {
-            limpiarPantalla();
-
-            System.out.println("1. Cabaña");
-            System.out.println("2. Camping");
-            System.out.println("3. Actividad");
-            System.out.println("4. Atrás");
-            System.out.print("Opcion: ");
-
-            opcion = Integer.parseInt(br.readLine());
-            
-            switch (opcion){
-                case 1:
-                    buscarCabana();
-                    break;
-                case 2:
-                    buscarCamping();
-                    break;
-                case 3:
-                    buscarActividad();
-                    break;
-                case 4:
-                    break;
-                default:
-                    System.out.println("Opción no válida");
-                    continuar();
-            }
-        } while (opcion != 4);
-    }
-
-    private void buscarCabana() throws IOException {
+    private void buscarRecurso() throws IOException {
         limpiarPantalla();
 
-        System.out.println("Ingresa el Id de la cabana");
-        String ID = (br.readLine());
-        Recurso x = parque.buscarCabana(ID);
-        if(x == null){
-           System.out.println("Id incorrecto");
-        }
-        else {
-            System.out.println("Cabana encontrada");
-            x.mostrarRecurso();
-        }
-        continuar();
-    }
+         System.out.println("Ingrese ID del recurso:");
+         String id = br.readLine();
+         Recurso recurso = parque.buscarRecurso(id);
+         
+         if (recurso == null) {
+             System.out.println("No existe un recurso con ese ID.");
+         } else {
+             System.out.println("Recurso encontrado:");
+             recurso.mostrarRecurso();
+         }
 
-    private void buscarCamping() throws IOException {
-        limpiarPantalla();
-
-        System.out.println("Ingresa el Id del camping");
-        String ID = (br.readLine());
-        Recurso x = parque.buscarCamping(ID);
-        if(x == null){
-           System.out.println("Id incorrecto");
-        }
-        else {
-            System.out.println("Camping encontrado");
-            x.mostrarRecurso();
-        }
-        continuar();
-    }
-
-    private void buscarActividad() throws IOException {
-        limpiarPantalla();
-
-        System.out.println("Ingresa el Id de la actividad");
-        String ID = (br.readLine());
-        Recurso x = parque.buscarActividad(ID);
-        if(x == null){
-           System.out.println("Id incorrecto");
-        }
-        else {
-            System.out.println("Actividad encontrada");
-            x.mostrarRecurso();
-        }
         continuar();
     }
 
     private void crearUsuario() throws IOException {
         limpiarPantalla();
 
-        System.out.println("Ingrese el nombre del usuario:");
-        String nombre = br.readLine();
         System.out.println("Ingrese el RUT del usuario:");
         String rut = br.readLine();
-        usuarioActual = new Usuario(nombre, rut);
+
+        Usuario usuarioExistente = parque.buscarUsuario(rut);
+        if (usuarioExistente != null) {
+            usuarioActual = usuarioExistente;
+            System.out.println("Usuario existente encontrado y seleccionado.");
+            System.out.println("Usuario actual: " + usuarioActual.getNombre());
+            continuar();
+            return;
+        }
+
+        System.out.println("Usuario no encontrado. Se creará un nuevo usuario.");
+        
+        System.out.println("Ingrese el nombre del usuario:");
+        String nombre = br.readLine();
+
+        Usuario nuevoUsuario = new Usuario(nombre, rut);
+
+        parque.agregarUsuario(nuevoUsuario);
+        usuarioActual = nuevoUsuario;
         System.out.println("Usuario creado correctamente.");
+        
+        continuar();
+    }
+
+    // Opciones para gestionar reservas
+    private void gestionarReservas() throws IOException {
+        if (usuarioActual == null) {
+            System.out.println("Primero debe ingresar como usuario.");
+            continuar();
+            return;
+        }
+
+        int opcion;
+
+        do {
+            limpiarPantalla();
+            System.out.println("======================================");
+            System.out.println("      GESTIONAR RESERVAS");
+            System.out.println("======================================");
+            System.out.println("1. Listar Reservas");
+            System.out.println("2. Buscar Reserva");
+            System.out.println("3. Modificar Cantidad de Personas en Reserva");
+            System.out.println("4. Aprobar Permiso");
+            System.out.println("5. Rechazar Permiso");
+            System.out.println("6. Atrás (Volver al menú principal)");
+            System.out.print("Opcion: ");
+
+            opcion = Integer.parseInt(br.readLine());
+            switch (opcion) {
+                case 1:
+                    usuarioActual.listarReservas();
+                    continuar();
+                    break;
+                case 2:
+                    buscarReserva();
+                    break;
+                case 3:
+                    cambiarCantidadReserva();
+                    break;
+                case 4:
+                    aprobarPermisoReserva();
+                    break;
+                case 5:
+                    rechazarPermisoReserva();
+                    break;
+                case 6:
+                    limpiarPantalla();
+                    break;
+                default:
+                    limpiarPantalla();
+                    System.out.println("Opción no válida.");
+                    continuar();
+                    break;
+            }
+
+        } while (opcion != 6);
+    }
+
+    private void buscarReserva() throws IOException {
+        System.out.print("Ingrese el ID de la reserva a buscar: ");
+        String idBuscar = br.readLine();
+
+        Reserva reserva = usuarioActual.buscarReserva(idBuscar);
+        if (reserva == null) {
+            System.out.println("No se encontró la reserva.");
+        } else {
+            reserva.mostrarReserva();
+        }
+
+        continuar();
+    }
+
+    private void cambiarCantidadReserva() throws IOException {
+        System.out.print("Ingrese el ID de la reserva: ");
+        String idModificar = br.readLine();
+
+        Reserva reservaModificar = usuarioActual.buscarReserva(idModificar);
+        if (reservaModificar == null) {
+            System.out.println("Reserva no encontrada.");
+        } else {
+            System.out.print("Ingrese la nueva cantidad de personas: ");
+            int nuevaCantidad = Integer.parseInt(br.readLine());
+
+            if (reservaModificar.cambiarCantidad(nuevaCantidad)) {
+                System.out.println("Cantidad de personas modificada correctamente.");
+            } else {
+                System.out.println("No se pudo modificar la cantidad.");
+            }
+        }
+        continuar();
+    }
+
+    private void aprobarPermisoReserva() throws IOException {
+        System.out.print("Ingrese el ID de la reserva para aprobar el permiso: ");
+        String idAprobar = br.readLine();
+
+        if (usuarioActual.aprobarPermiso(idAprobar)) {
+            System.out.println("Permiso aprobado correctamente.");
+        } else {
+            System.out.println("No se encontró la reserva o el permiso ya estaba aprobado.");
+        }
+        continuar();
+    }
+
+    private void rechazarPermisoReserva() throws IOException {
+        System.out.print("Ingrese el ID de la reserva para rechazar el permiso: ");
+        String idRechazar = br.readLine();
+
+        if (usuarioActual.rechazarPermiso(idRechazar)) {
+            System.out.println("Permiso rechazado correctamente.");
+        } else {
+            System.out.println("No se encontró la reserva o el permiso ya estaba rechazado.");
+        }
+        continuar();
+    }
+
+    // Opciones para gestionar usuarios
+    private void gestionarUsuarios() throws IOException {
+        int opcion;
+
+        do {
+            limpiarPantalla();
+            System.out.println("======================================");
+            System.out.println("      GESTIONAR USUARIOS");
+            System.out.println("======================================");
+            System.out.println("1. Listar Usuarios");
+            System.out.println("2. Buscar Usuario");
+            System.out.println("3. Modificar Nombre");
+            System.out.println("4. Eliminar Usuario");
+            System.out.println("5. Atrás (Volver al menú principal)");
+            System.out.print("Opcion: ");
+
+            opcion = Integer.parseInt(br.readLine());
+            switch (opcion) {
+                case 1:
+                    parque.listarUsuarios();
+                    continuar();
+                    break;
+                case 2:
+                    buscarUsuario();
+                    break;
+                case 3:
+                    modificarNombreUsuario();
+                    break;
+                case 4:
+                    eliminarUsuario();
+                    break;
+                case 5:
+                    limpiarPantalla();
+                    break;
+                default:
+                    limpiarPantalla();
+                    System.out.println("Opción no válida.");
+                    continuar();
+                    break;
+            }
+
+        } while (opcion != 5);
+    }
+
+    private void buscarUsuario() throws IOException {
+        System.out.print("Ingrese el RUT del usuario a buscar: ");
+        String rutBuscar = br.readLine();
+
+        Usuario usuario = parque.buscarUsuario(rutBuscar);
+        if (usuario == null) {
+            System.out.println("Usuario no encontrado.");
+        } else {
+            usuario.mostrarUsuario();
+        }
+
+        continuar();
+    }
+
+    private void modificarNombreUsuario() throws IOException {
+        System.out.print("Ingrese el RUT del usuario a modificar: ");
+        String rutModificar = br.readLine();
+
+        Usuario usuarioModificar = parque.buscarUsuario(rutModificar);
+        if (usuarioModificar == null) {
+            System.out.println("Usuario no encontrado.");
+        } else {
+            System.out.print("Ingrese el nuevo nombre del usuario: ");
+            String nuevoNombre = br.readLine();
+            usuarioModificar.setNombre(nuevoNombre);
+            System.out.println("Nombre del usuario modificado correctamente.");
+        }
+
+        continuar();
+    }
+
+    private void eliminarUsuario() throws IOException {
+        System.out.print("Ingrese el RUT del usuario a eliminar: ");
+        String rutEliminar = br.readLine();
+
+        if (parque.eliminarUsuario(rutEliminar)) {
+            System.out.println("Usuario eliminado correctamente.");
+
+            if (usuarioActual != null && usuarioActual.getRut().equals(rutEliminar)) {
+                usuarioActual = null;
+            }
+        } else {
+            System.out.println("Usuario no encontrado.");
+        }
+
         continuar();
     }
 

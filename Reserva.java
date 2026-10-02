@@ -4,6 +4,7 @@ public class Reserva {
     private Recurso recurso;
     private Tarifa tarifa;
     private boolean estado;
+    private Permiso permiso;
     private static int contador = 1;
 
     public Reserva(int c, Recurso r, Tarifa t, boolean e) {
@@ -12,6 +13,7 @@ public class Reserva {
         recurso = r;
         tarifa = t;
         estado = e; 
+        permiso = new Permiso();
         contador ++;
     }
 
@@ -30,16 +32,41 @@ public class Reserva {
     public Tarifa getTarifa() {
         return tarifa;
     }
+
     public boolean getEstado() {
         return estado;
     }
+
+    public Permiso getPermiso() {
+        return permiso;
+    }
+
+    public void setPermiso(Permiso permiso) {
+        this.permiso = permiso;
+    }
+
+    public boolean cambiarCantidad(int nuevaCantidad) {
+        if (nuevaCantidad <= 0) {
+            return false;
+        }
+
+        if (!recurso.hayDisponibilidad(nuevaCantidad)) {
+            return false;
+        }
+
+        cantidad = nuevaCantidad;
+        return true;
+    }
+
     public void mostrarReserva(){
         System.out.println("ID de reserva: " + id);
         System.out.println("Tamaño de grupo: " + cantidad);
         System.out.println("Recurso: ");
         recurso.mostrarRecurso();
-        System.out.println("Tarifa: " + tarifa.getPrecio());
-        System.out.println("Estado: " + estado);
+        System.out.println("Precio por persona: $ " + tarifa.getPrecioBase());
+        System.out.println("Costo total: $ " + tarifa.calcular(cantidad));
+        System.out.println("Estado: " + (estado ? "Activa" : "Cancelada"));
+        permiso.mostrarPermiso();
     }
 }
 

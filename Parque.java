@@ -48,8 +48,29 @@ public class Parque {
 
     public Recurso buscarRecurso(String id) {
         return recursos.get(id);
-    }  
+    }
+
     public Usuario buscarUsuario(String rut) {
         return usuarios.get(rut);
+    }
+
+    public void listarUsuarios() {
+        if (usuarios.isEmpty()) {
+            System.out.println("No hay usuarios registrados.");
+            return;
+        }
+
+        for (Usuario usuario : usuarios.values()) {
+            usuario.mostrarUsuario();
+            System.out.println("--------------------");
+        }
+    }
+
+    public boolean eliminarUsuario(String rut) {
+        if (!usuarios.containsKey(rut)) {
+            return false;
+        }
+        usuarios.remove(rut);
+        return true;
     }
 }
