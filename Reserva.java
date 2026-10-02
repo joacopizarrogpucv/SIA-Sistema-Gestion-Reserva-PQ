@@ -1,52 +1,28 @@
 public class Reserva {
     private String id;
-    private Usuario usuario;
+    private int cantidad;
     private Recurso recurso;
     private Tarifa tarifa;
+    private boolean estado;
+    private Permiso permiso;
+    private static int contador = 1;
 
-    private int mesInicio;
-    private int diaInicio;
-    private int mesFin;
-    private int diaFin;
-
-    // Para actividades se guardan tambien las horas
-    private int minutoInicio;
-    private int minutoFin;
-
-    // Reserva de cabana/camping
-    public Reserva(String i, Usuario u, Recurso r, Tarifa t, int mesI, int diaI, int mesF, int diaF) {
-        id = i;
-        usuario = u;
+    public Reserva(int c, Recurso r, Tarifa t, boolean e) {
+        id = "RES" + contador;
+        cantidad = c;
         recurso = r;
         tarifa = t;
-        mesInicio = mesI;
-        diaInicio = diaI;
-        mesFin = mesF;
-        diaFin = diaF;
-        minutoInicio = 0;
-        minutoFin = 0;
-    }
-
-    // Reserva de actividad
-    public Reserva(String i, Usuario u, Recurso r, Tarifa t, int mes, int dia, int horaI, int minutoI, int horaF, int minutoF) {
-        id = i;
-        usuario = u;
-        recurso = r;
-        tarifa = t;
-        mesInicio = mes;
-        diaInicio = dia;
-        mesFin = mes;
-        diaFin = dia;
-        minutoInicio = horaI * 60 + minutoI;
-        minutoFin = horaF * 60 + minutoF;
+        estado = e; 
+        permiso = new Permiso();
+        contador ++;
     }
 
     public String getId() {
         return id;
     }
 
-    public Usuario getUsuario() {
-        return usuario;
+    public int getCantidad() {
+        return cantidad;
     }
 
     public Recurso getRecurso() {
@@ -57,63 +33,40 @@ public class Reserva {
         return tarifa;
     }
 
-    public int getMesInicio() {
-        return mesInicio;
+    public boolean getEstado() {
+        return estado;
     }
 
-    public int getDiaInicio() {
-        return diaInicio;
+    public Permiso getPermiso() {
+        return permiso;
     }
 
-    public int getMesFin() {
-        return mesFin;
+    public void setPermiso(Permiso permiso) {
+        this.permiso = permiso;
     }
 
-    public int getDiaFin() {
-        return diaFin;
-    }
-
-    public int getMinutoInicio() {
-        return minutoInicio;
-    }
-
-    public int getMinutoFin() {
-        return minutoFin;
-    }
-
-    public void cambiarHorario(int horaInicio, int minutoInicio, int horaFin, int minutoFin) {
-        this.minutoInicio = horaInicio * 60 + minutoInicio;
-        this.minutoFin = horaFin * 60 + minutoFin;
-    }
-
-    public int calcularDias() {
-        if (mesInicio == mesFin) {
-            return diaFin - diaInicio + 1;
+    public boolean cambiarCantidad(int nuevaCantidad) {
+        if (nuevaCantidad <= 0) {
+            return false;
         }
 
-        int dias = 0;
-
-        for (int mes = mesInicio; mes < mesFin; mes++) {
-            if (mes == 2) {
-                dias += 28;
-            } else if (mes == 4 || mes == 6 || mes == 9 || mes == 11) {
-                dias += 30;
-            } else {
-                dias += 31;
-            }
+        if (!recurso.hayDisponibilidad(nuevaCantidad)) {
+            return false;
         }
 
-        dias -= diaInicio - 1;
-        dias += diaFin;
-
-        return dias;
+        cantidad = nuevaCantidad;
+        return true;
     }
 
-    public double calcularCosto() {
-        if (recurso instanceof Actividad) {
-            return tarifa.calcular(recurso);
-        }
-
-        return tarifa.calcular(recurso) * calcularDias();
+    public void mostrarReserva(){
+        System.out.println("ID de reserva: " + id);
+        System.out.println("Tamaño de grupo: " + cantidad);
+        System.out.println("Recurso: ");
+        recurso.mostrarRecurso();
+        System.out.println("Precio por persona: $ " + tarifa.getPrecioBase());
+        System.out.println("Costo total: $ " + tarifa.calcular(cantidad));
+        System.out.println("Estado: " + (estado ? "Activa" : "Cancelada"));
+        permiso.mostrarPermiso();
     }
 }
+

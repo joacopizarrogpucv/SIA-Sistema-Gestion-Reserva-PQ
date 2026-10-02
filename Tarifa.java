@@ -1,26 +1,24 @@
 public class Tarifa {
-    private double precio;
+    private double precioBase;
 
-    public Tarifa(double p) {
-        precio = p;
+    public Tarifa(double precioBase) {
+        this.precioBase = precioBase;
     }
 
-    public double calcular(Recurso recurso) {
-        // Las actividades tienen un precio fijo.
-        // Cabañas y campings multiplican por su capacidad.
-        if (recurso instanceof Actividad) {
-            return precio;
-        }
-
-        return precio * recurso.getCapacidad();
+    public double calcular(int cantidadPersonas) {
+        return precioBase * cantidadPersonas;
     }
 
-    public double getPrecio() {
-        return precio;
+    // Sobrecarga, permite aplicar un descuento porcentual
+    public double calcular(int cantidadPersonas, double descuento) {
+        double total = precioBase * cantidadPersonas;
+        return total - (total * descuento / 100.0);
     }
 
-    public void setPrecio(double p) {
-        precio = p;
+    public double getPrecioBase() {
+        return precioBase;
     }
-
+    public void setPrecioBase(double precioBase) {
+        this.precioBase = precioBase;
+    }
 }
