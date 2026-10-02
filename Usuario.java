@@ -29,7 +29,7 @@ public class Usuario {
             return false;
         }
         Reserva R = new Reserva(cantidad, r, new Tarifa(200), true);
-        reservas.put(r.getId(), R);
+        reservas.put(R.getId(), R);
         R.mostrarReserva();
 
         return true;

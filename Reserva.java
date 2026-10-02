@@ -4,7 +4,7 @@ public class Reserva {
     private Recurso recurso;
     private Tarifa tarifa;
     private boolean estado;
-    private static int contador = 11;
+    private static int contador = 1;
 
     public Reserva(int c, Recurso r, Tarifa t, boolean e) {
         id = "RES" + contador;
