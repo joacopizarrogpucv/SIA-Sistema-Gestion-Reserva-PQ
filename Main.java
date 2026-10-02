@@ -63,11 +63,24 @@ public class Main {
                     break;
                 
                 case 2:
-                    System.out.print("\033[H\033[2J");
-                    System.out.flush();
-                    System.out.println("2");
+                    if (usuarioActual == null) {
+                        System.out.println("Primero debe crear un usuario.");
+                        continuar(br);
+                        break;
+                    }
+                
+                    System.out.print("ID del recurso a cancelar: ");
+                    String idCancelar = br.readLine();
+                                
+                    if (usuarioActual.cancelarReserva(idCancelar)) {
+                        System.out.println("Reserva cancelada correctamente.");
+                    }
+                    else {
+                        System.out.println("No se encontró esa reserva.");
+                    }
+                
+                    continuar(br);
                     break;
-
                 case 3:
                     do {
                         System.out.print("\033[H\033[2J");
@@ -97,20 +110,20 @@ public class Main {
                                 continuar(br);
                                 break;
                             case 2:
-                                if (usuarioActual == null) {
-                                    System.out.println("Primero debe crear un usuario.");
-                                    continuar(br);
-                                    break;
-                                }
-                                                        
-                                System.out.print("ID del recurso a cancelar: ");
-                                String idCancelar = br.readLine();
+                                System.out.print("\033[H\033[2J");
+                                System.out.flush();
                             
-                                if (usuarioActual.cancelarReserva(idCancelar)) {
-                                    System.out.println("Reserva cancelada correctamente.");
+                                System.out.println("Ingresa el Id del Camping");
+                                ID = br.readLine();
+                            
+                                x = parque.buscarCamping(ID);
+                            
+                                if (x == null) {
+                                    System.out.println("Id incorrecto");
                                 }
                                 else {
-                                    System.out.println("No se encontró esa reserva.");
+                                    System.out.println("Camping encontrado");
+                                    x.mostrarRecurso();
                                 }
                             
                                 continuar(br);
@@ -130,6 +143,8 @@ public class Main {
                                 }
                                 continuar(br);
                                 break;
+                            case 4:
+                                break;
                             default:
                                 System.out.print("\033[H\033[2J");
                                 System.out.flush();
@@ -137,7 +152,7 @@ public class Main {
                                 break;
                         }
                     } while (opcion != 4);
-                
+                        break;
                 case 4:
                     System.out.println("--- CREAR USUARIO ---");
                 
