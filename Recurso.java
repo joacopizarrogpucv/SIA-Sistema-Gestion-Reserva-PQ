@@ -20,4 +20,5 @@ public abstract class Recurso {
         return cantidad <= capacidad;
     }
     public abstract void mostrarRecurso();
+    public abstract String obtenerDescripcion();
 }

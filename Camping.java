@@ -12,15 +12,14 @@ public class Camping extends Recurso {
         picina = x;
     }
     @Override
+    public String obtenerDescripcion() {
+        return "Nombre: " + getNombre() + "\n" +
+               "ID: " + getId() + "\n" +
+               "Capacidad: " + getCapacidad() + " personas\n" +
+               (picina ? "Tiene servicio de Picina" : "No tiene servicio de Picina");
+    }
+    @Override
     public void mostrarRecurso(){
-        System.out.println("Nombre: " + getNombre());
-        System.out.println("ID: " + getId());
-        System.out.println("Capacidad: " + getCapacidad() + " personas");
-        if(picina){
-            System.out.println("Tiene servicio de Picina");
-        }
-        else{
-            System.out.println("No tiene servicio de Picina");
-        }
+        System.out.println(obtenerDescripcion());
     }
 }

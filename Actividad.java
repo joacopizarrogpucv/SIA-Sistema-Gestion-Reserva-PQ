@@ -13,12 +13,18 @@ public class Actividad extends Recurso {
     public int getDuracion() {
         return duracion;
     }
+
+    @Override
+    public String obtenerDescripcion() {
+        return "Nombre: " + getNombre() + "\n" +
+               "ID: " + getId() + "\n" +
+               "Capacidad: " + getCapacidad() + " personas\n" +
+               "Guía: " + guia + "\n" +
+               "Duración: " + duracion + " horas";
+    }
+
     @Override
     public void mostrarRecurso(){
-        System.out.println("Nombre: " + getNombre());
-        System.out.println("ID: " + getId());
-        System.out.println("Capacidad: " + getCapacidad() + " personas");
-        System.out.println("Guía: " + guia);
-        System.out.println("Duración: " + duracion);
+        System.out.println(obtenerDescripcion());
     }
 }

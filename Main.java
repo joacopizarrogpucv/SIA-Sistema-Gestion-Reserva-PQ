@@ -1,4 +1,5 @@
 import java.io.IOException;
+import javax.swing.JOptionPane;
 
 public class Main {
     
@@ -12,16 +13,32 @@ public class Main {
         }
 
         Lector.leerUsuarios("usuario.csv", parque);
-        Lector.leerReservas("reservas.csv", parque);    
+        Lector.leerReservas("reservas.csv", parque); 
+        
+        String[] modos = {"Consola", "Ventana"};
 
-        // Luego se crea el menú de consola y se inicia
-        MenuConsola menu = new MenuConsola(parque);
-        menu.iniciar();
-
+        int modo = JOptionPane.showOptionDialog(null, "Seleccione el modo de ejecución:", "Parque PUCV",
+                JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, modos, modos[0]);
+        
+        switch (modo) {
+            case 0:
+                // Modo consola
+                MenuConsola menuConsola = new MenuConsola(parque);
+                menuConsola.iniciar();
+                break;
+            case 1:
+                // Modo ventana
+                MenuVentana menuVentana = new MenuVentana(parque);
+                menuVentana.iniciar();
+                break;
+            default:
+                System.out.println("Modo de ejecución no válido.");
+                return;
+        }
+        
         Escritor.guardarUsuarios("usuario.csv", parque);
         Escritor.guardarReservas("reservas.csv", parque);
 
         System.out.println("Datos guardados correctamente.");
     }
-
 }

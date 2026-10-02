@@ -95,4 +95,8 @@ public class Parque {
     public Iterable<Usuario> getUsuarios() {
         return usuarios.values();
     }
+
+    public Iterable<Recurso> getRecursos() {
+        return recursos.values();
+    }
 }

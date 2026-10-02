@@ -5,14 +5,21 @@ public class Cabana extends Recurso {
         super(n, i, c);
         habitacion = a;
     }
+
     public int gethabitacion() {
         return habitacion;
     }
+
+    @Override
+    public String obtenerDescripcion() {
+        return "Nombre: " + getNombre() + "\n" +
+               "ID: " + getId() + "\n" +
+               "Capacidad: " + getCapacidad() + " personas\n" +
+               "Habitaciones: " + habitacion;
+    }
+    
     @Override
     public void mostrarRecurso(){
-        System.out.println("Nombre: " + getNombre());
-        System.out.println("ID: " + getId());
-        System.out.println("Capacidad: " + getCapacidad() + " personas");
-        System.out.println("Habitaciones : " + habitacion);
+        System.out.println(obtenerDescripcion());
     }
 }
