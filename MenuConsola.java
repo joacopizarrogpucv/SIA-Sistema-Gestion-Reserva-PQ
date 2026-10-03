@@ -111,28 +111,18 @@ public class MenuConsola {
         if (recurso == null) {
             System.out.println("No existe ese recurso.");
         } else {
-            System.out.println(
-                "Ingrese la cantidad de personas que van:"
-            );
+            System.out.println("Ingrese la cantidad de personas que van:");
 
             int cantidad = leerEntero();
 
             try {
                 recurso.validarCapacidad(cantidad);
-
                 if (usuarioActual.realizarReserva(recurso, cantidad)) {
-                    System.out.println(
-                        "Reserva realizada correctamente."
-                    );
+                    System.out.println("Reserva realizada correctamente.");
                 } else {
-                   System.out.println(
-                        "No se pudo realizar la reserva."
-                    );
+                   System.out.println("No se pudo realizar la reserva.");
                 }
-
-            } catch (CapacidadExcedidaException |
-                     IllegalArgumentException e) {
-
+            } catch (CapacidadExcedidaException | IllegalArgumentException e) {
                 System.out.println(e.getMessage());
             }
         }
@@ -152,10 +142,7 @@ public class MenuConsola {
 
         try {
             usuarioActual.cancelarReserva(idCancelar);
-
-            System.out.println(
-                "Reserva cancelada correctamente."
-            );
+            System.out.println("Reserva cancelada correctamente.");
         } catch (ReservaNoEncontradaException e) {
             System.out.println(e.getMessage());
         }
@@ -166,16 +153,16 @@ public class MenuConsola {
     private void buscarRecurso() throws IOException {
         limpiarPantalla();
 
-         System.out.println("Ingrese ID del recurso:");
-         String id = br.readLine();
-         Recurso recurso = parque.buscarRecurso(id);
+        System.out.println("Ingrese ID del recurso:");
+        String id = br.readLine();
+        Recurso recurso = parque.buscarRecurso(id);
          
-         if (recurso == null) {
-             System.out.println("No existe un recurso con ese ID.");
-         } else {
-             System.out.println("Recurso encontrado:");
-             recurso.mostrarRecurso();
-         }
+        if (recurso == null) {
+            System.out.println("No existe un recurso con ese ID.");
+        } else {
+            System.out.println("Recurso encontrado:");
+            recurso.mostrarRecurso();
+        }
 
         continuar();
     }
@@ -218,7 +205,6 @@ public class MenuConsola {
         }
 
         int opcion;
-
         do {
             limpiarPantalla();
             System.out.println("======================================");
@@ -290,15 +276,10 @@ public class MenuConsola {
 
             try {
                 if (reservaModificar.cambiarCantidad(nuevaCantidad)) {
-                    System.out.println(
-                        "Cantidad de personas modificada correctamente."
-                    );
+                    System.out.println("Cantidad de personas modificada correctamente.");
                 } else {
-                    System.out.println(
-                        "La cantidad debe ser mayor a 0."
-                    );
+                    System.out.println("La cantidad debe ser mayor a 0.");
                 }
-
             } catch (CapacidadExcedidaException e) {
                 System.out.println(e.getMessage());
             }
@@ -444,9 +425,7 @@ public class MenuConsola {
             try {
                 return Integer.parseInt(br.readLine().trim());
             } catch (NumberFormatException e) {
-                System.out.print(
-                    "Entrada inválida. Ingrese un número: "
-                );
+                System.out.print("Entrada inválida. Ingrese un número: ");
             }
         }
     }

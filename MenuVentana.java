@@ -46,8 +46,7 @@ public class MenuVentana {
                 "Salir"
             };
 
-            int opcion = mostrarMenuVertical(
-                "Sistema de Gestión de Reservas",
+            int opcion = mostrarMenuVertical("Sistema de Gestión de Reservas",
                 "PARQUE PUCV\nUsuario Actual: " + usuario,
                 opciones
             );
@@ -110,8 +109,8 @@ public class MenuVentana {
         }
 
         if (cantidad <= 0) {
-         mostrarError("La cantidad debe ser mayor que 0.");
-         return;
+            mostrarError("La cantidad debe ser mayor que 0.");
+            return;
         }
         
         if (!recurso.hayDisponibilidad(cantidad)) {
@@ -123,17 +122,12 @@ public class MenuVentana {
             recurso.validarCapacidad(cantidad);
 
             if (usuarioActual.realizarReserva(recurso, cantidad)) {
-                JOptionPane.showMessageDialog(
-                    null,
-                    "Reserva realizada correctamente."
-                );
+                JOptionPane.showMessageDialog(null, "Reserva realizada correctamente.");
             } else {
                 mostrarError("No se pudo realizar la reserva.");
             }
 
-        } catch (CapacidadExcedidaException |
-                IllegalArgumentException e) {
-
+        } catch (CapacidadExcedidaException | IllegalArgumentException e) {
             mostrarError(e.getMessage());
         }
     }
@@ -150,12 +144,7 @@ public class MenuVentana {
 
         try {
             usuarioActual.cancelarReserva(id.trim());
-
-            JOptionPane.showMessageDialog(
-                null,
-                "Reserva cancelada correctamente."
-            );
-
+            JOptionPane.showMessageDialog(null, "Reserva cancelada correctamente.");
         } catch (ReservaNoEncontradaException e) {
             mostrarError(e.getMessage());
         }
@@ -171,12 +160,8 @@ public class MenuVentana {
         if (recurso == null) {
             mostrarError("No existe un recurso con ese ID.");
         } else {
-            JOptionPane.showMessageDialog(
-                    null,
-                    recurso.obtenerDescripcion(),
-                    "Recurso encontrado",
-                    JOptionPane.INFORMATION_MESSAGE
-            );
+            JOptionPane.showMessageDialog(null, recurso.obtenerDescripcion(),
+                    "Recurso encontrado", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
@@ -191,10 +176,7 @@ public class MenuVentana {
 
         if (existente != null) {
             usuarioActual = existente;
-            JOptionPane.showMessageDialog(
-                    null,
-                    "Usuario encontrado y seleccionado:\n" + textoUsuario(usuarioActual)
-            );
+            JOptionPane.showMessageDialog(null, "Usuario encontrado y seleccionado:\n" + textoUsuario(usuarioActual));
             return;
         }
 
@@ -235,8 +217,7 @@ public class MenuVentana {
             int opcion = mostrarMenuVertical(
                 "Reservas",
                 "GESTIONAR RESERVAS\nUsuario: " + usuarioActual.getNombre() + " (" + usuarioActual.getRut() + ")",
-                opciones
-            );
+                opciones);
 
             switch (opcion) {
                 case 0:
@@ -312,10 +293,7 @@ public class MenuVentana {
 
         try {
             if (reserva.cambiarCantidad(cantidad)) {
-                JOptionPane.showMessageDialog(
-                    null,
-                    "Cantidad modificada correctamente."
-                );
+                JOptionPane.showMessageDialog(null, "Cantidad modificada correctamente.");
             } else {
                 mostrarError(
                     "La cantidad debe ser mayor a 0."
@@ -338,10 +316,8 @@ public class MenuVentana {
                 : usuarioActual.rechazarPermiso(id.trim());
 
         if (resultado) {
-            JOptionPane.showMessageDialog(
-                    null,
-                    aprobar ? "Permiso aprobado correctamente." : "Permiso rechazado correctamente."
-            );
+            JOptionPane.showMessageDialog(null,
+                    aprobar ? "Permiso aprobado correctamente." : "Permiso rechazado correctamente.");
         } else {
             mostrarError("Reserva no encontrada.");
         }
@@ -358,11 +334,7 @@ public class MenuVentana {
         };
 
         while (!volver) {
-            int opcion = mostrarMenuVertical(
-                "Usuarios",
-                "GESTIONAR USUARIOS",
-                opciones
-            );
+            int opcion = mostrarMenuVertical("Usuarios", "GESTIONAR USUARIOS", opciones);
 
             switch (opcion) {
                 case 0:
@@ -469,14 +441,11 @@ public class MenuVentana {
         texto.append("Recursos disponibles para ").append(cantidad).append(" personas:\n\n");
 
         boolean encontrado = false;
-        for (Recurso recurso :
-            parque.filtrarRecursosPorCapacidad(cantidad)) {
-
+        for (Recurso recurso : parque.filtrarRecursosPorCapacidad(cantidad)) {
             texto.append(recurso.obtenerDescripcion());
             texto.append("\n------------------------------\n");
             encontrado = true;
         }
-
         if (!encontrado) {
             texto.append("No hay recursos disponibles con capacidad suficiente.");
         }
@@ -507,8 +476,7 @@ public class MenuVentana {
     }
 
     private String textoUsuario(Usuario usuario) {
-        return "Nombre: " + usuario.getNombre() + "\n" +
-               "RUT: " + usuario.getRut();
+        return "Nombre: " + usuario.getNombre() + "\n" + "RUT: " + usuario.getRut();
     }
 
     private String textoReserva(Reserva reserva) {
@@ -527,9 +495,7 @@ public class MenuVentana {
     }
 
     private int mostrarMenuVertical(String titulo, String mensaje, String[] opciones) {
-
         final int[] seleccion = {-1};
-        
         JDialog dialogo = new JDialog((Frame) null, titulo, true);
         dialogo.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         
@@ -537,7 +503,6 @@ public class MenuVentana {
         panelPrincipal.setBorder(new EmptyBorder(15, 15, 15, 15));
         
         JLabel texto = new JLabel("<html>" + mensaje.replace("\n", "<br>") + "</html>");
-        
         panelPrincipal.add(texto, BorderLayout.NORTH);
 
         JPanel panelBotones = new JPanel(new GridLayout(0, 1, 5, 5));
@@ -556,7 +521,6 @@ public class MenuVentana {
         }
         
         panelPrincipal.add(panelBotones, BorderLayout.CENTER);
-        
         dialogo.setContentPane(panelPrincipal);
         dialogo.pack();
         dialogo.setLocationRelativeTo(null);
@@ -577,11 +541,6 @@ public class MenuVentana {
         
         scroll.setPreferredSize(new Dimension(450, 500));
         
-        JOptionPane.showMessageDialog(
-            null,
-            scroll,
-            titulo,
-            JOptionPane.INFORMATION_MESSAGE
-        );
+        JOptionPane.showMessageDialog(null, scroll, titulo, JOptionPane.INFORMATION_MESSAGE);
     }
 }

@@ -131,9 +131,7 @@ public class Parque {
         );
 
         if (recursosDisponibles.isEmpty()) {
-            System.out.println(
-                "No hay recursos disponibles con capacidad suficiente."
-            );
+            System.out.println("No hay recursos disponibles con capacidad suficiente.");
             return;
         }
 

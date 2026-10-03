@@ -112,7 +112,6 @@ public class Reserva {
         }
 
         recurso.validarCapacidad(nuevaCantidad);
-
         cantidad = nuevaCantidad;
         return true;
     }
