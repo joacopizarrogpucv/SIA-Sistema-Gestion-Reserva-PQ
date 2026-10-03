@@ -1,17 +1,28 @@
+/**
+ * Representa el permiso asociado a una reserva.
+ * Permite registrar si dicho permiso se encuentra aprobado o pendiente.
+ */
 public class Permiso {
 
     private String id;
     private boolean aprobado;
     private static int contador = 1;
 
-    // Para permisos nuevos
+    /**
+     * Crea un permiso nuevo inicialmente pendiente.
+     */
     public Permiso() {
         id = "PER" + contador;
         aprobado = false;
         contador++;
     }
 
-    // Para permisos existentes desde archivo
+    /**
+     * Reconstruye un permiso existente desde los datos almacenados.
+     *
+     * @param id identificador del permiso
+     * @param aprobado estado almacenado del permiso
+     */
     public Permiso(String id, boolean aprobado) {
         this.id = id;
         this.aprobado = aprobado;
@@ -56,10 +67,16 @@ public class Permiso {
         Permiso.contador = contador;
     }
 
+    /**
+     * Aprueba el permiso.
+     */
     public void aprobar() {
         aprobado = true;
     }
-    
+
+    /**
+     * Deja el permiso en estado no aprobado.
+     */
     public void rechazar() {
         aprobado = false;
     }

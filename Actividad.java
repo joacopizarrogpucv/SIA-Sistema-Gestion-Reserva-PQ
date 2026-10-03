@@ -1,7 +1,20 @@
+/**
+ * Representa una actividad guiada ofrecida por el parque.
+ * Almacena el guía responsable y la duración de la actividad.
+ */
 public class Actividad extends Recurso {
     private String guia;
     private int duracion;
 
+    /**
+     * Crea una nueva actividad.
+     *
+     * @param nombre nombre de la actividad
+     * @param id identificador del recurso
+     * @param capacidad cantidad máxima de participantes
+     * @param guia nombre del guía responsable
+     * @param duracion duración de la actividad
+     */
     public Actividad(String nombre, String id, int capacidad, String guia, int duracion) {
         super(nombre, id, capacidad);
         this.guia = guia;
@@ -22,6 +35,11 @@ public class Actividad extends Recurso {
         this.duracion = duracion;
     }
 
+    /**
+     * Genera una descripción con los datos de la actividad.
+     *
+     * @return descripción textual de la actividad
+     */
     @Override
     public String obtenerDescripcion() {
         return "Nombre: " + getNombre() + "\n" +
