@@ -46,6 +46,22 @@ public abstract class Recurso {
         return cantidad <= capacidad && cantidad > 0;
     }
     
+    public void validarCapacidad(int cantidad) {
+        if (cantidad <= 0) {
+            throw new IllegalArgumentException(
+                "La cantidad debe ser mayor a 0."
+            );
+        }
+
+        if (cantidad > capacidad) {
+            throw new CapacidadExcedidaException(
+                nombre,
+            cantidad,
+                capacidad
+            );
+    }
+    }
+
     /**
      * Muestra los datos del recurso por consola.
      */

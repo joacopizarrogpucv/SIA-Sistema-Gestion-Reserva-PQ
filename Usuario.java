@@ -62,12 +62,20 @@ public class Usuario {
      * @param permisoAprobado estado inicial del permiso
      * @return true si la reserva pudo ser creada
      */
-    public boolean realizarReserva(Recurso recurso, int cantidad, boolean permisoAprobado) {
-        Reserva R = new Reserva(cantidad, recurso, new Tarifa(200), true);
-        
-        R.getPermiso().setAprobado(permisoAprobado);
-        
-        reservas.put(R.getId(), R);
+    public boolean realizarReserva(
+            Recurso recurso,
+            int cantidad,
+            boolean permisoAprobado) {
+
+        recurso.validarCapacidad(cantidad);
+
+        Reserva reserva =
+                new Reserva(cantidad, recurso, new Tarifa(200), true);
+
+        reserva.getPermiso().setAprobado(permisoAprobado);
+
+        reservas.put(reserva.getId(), reserva);
+
         return true;
     }
 
@@ -96,7 +104,9 @@ public class Usuario {
         }
     }
 
-    public boolean cancelarReserva(String id) {
+    public boolean cancelarReserva(String id)
+            throws ReservaNoEncontradaException {
+
         if (!reservas.containsKey(id)) {
             throw new ReservaNoEncontradaException(id);
         }

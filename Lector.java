@@ -143,7 +143,18 @@ public class Lector {
                 }
 
                 if (usuario != null && recurso != null && cantidad > 0) {
-                    usuario.realizarReserva(recurso, cantidad, permisoAprobado);
+                    try {
+                        usuario.realizarReserva(
+                                recurso,
+                                cantidad,
+                                permisoAprobado
+                        );
+                    } catch (CapacidadExcedidaException e) {
+                        System.out.println(
+                                "Reserva ignorada (" + rut + "): " +
+                                e.getMessage()
+                        );
+                    }
                 }
             }
             archivo.close();

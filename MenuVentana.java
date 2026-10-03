@@ -119,10 +119,22 @@ public class MenuVentana {
             return;
         }
 
-        if (usuarioActual.realizarReserva(recurso, cantidad)) {
-            JOptionPane.showMessageDialog(null, "Reserva realizada correctamente.");
-        } else {
-            mostrarError("No se pudo realizar la reserva.");
+        try {
+            recurso.validarCapacidad(cantidad);
+
+            if (usuarioActual.realizarReserva(recurso, cantidad)) {
+                JOptionPane.showMessageDialog(
+                    null,
+                    "Reserva realizada correctamente."
+                );
+            } else {
+                mostrarError("No se pudo realizar la reserva.");
+            }
+
+        } catch (CapacidadExcedidaException |
+                IllegalArgumentException e) {
+
+            mostrarError(e.getMessage());
         }
     }
 
@@ -136,10 +148,16 @@ public class MenuVentana {
             return;
         }
 
-        if (usuarioActual.cancelarReserva(id.trim())) {
-            JOptionPane.showMessageDialog(null, "Reserva cancelada correctamente.");
-        } else {
-            mostrarError("No se encontró esa reserva.");
+        try {
+            usuarioActual.cancelarReserva(id.trim());
+
+            JOptionPane.showMessageDialog(
+                null,
+                "Reserva cancelada correctamente."
+            );
+
+        } catch (ReservaNoEncontradaException e) {
+            mostrarError(e.getMessage());
         }
     }
 
@@ -292,10 +310,20 @@ public class MenuVentana {
             return;
         }
 
-        if (reserva.cambiarCantidad(cantidad)) {
-            JOptionPane.showMessageDialog(null, "Cantidad modificada correctamente.");
-        } else {
-            mostrarError("Cantidad inválida o superior a la capacidad del recurso.");
+        try {
+            if (reserva.cambiarCantidad(cantidad)) {
+                JOptionPane.showMessageDialog(
+                    null,
+                    "Cantidad modificada correctamente."
+                );
+            } else {
+                mostrarError(
+                    "La cantidad debe ser mayor a 0."
+                );
+            }
+
+        } catch (CapacidadExcedidaException e) {
+            mostrarError(e.getMessage());
         }
     }
 

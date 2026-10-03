@@ -111,12 +111,7 @@ public class Reserva {
             return false;
         }
 
-        if (nuevaCantidad <= 0) {
-            throw new IllegalArgumentException("La cantidad debe ser mayor a 0.");
-        }
         recurso.validarCapacidad(nuevaCantidad);
-        cantidad = nuevaCantidad;
-        }
 
         cantidad = nuevaCantidad;
         return true;

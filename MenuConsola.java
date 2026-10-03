@@ -97,28 +97,48 @@ public class MenuConsola {
     }
 
     private void reservar() throws IOException {
-    if (usuarioActual == null) {
-        System.out.println("Primero debe crear un usuario.");
+         if (usuarioActual == null) {
+            System.out.println("Primero debe crear un usuario.");
+            continuar();
+            return;
+        }
+
+        System.out.print("ID del recurso que desea reservar: ");
+        String idReserva = br.readLine();
+
+        Recurso recurso = parque.buscarRecurso(idReserva);
+
+        if (recurso == null) {
+            System.out.println("No existe ese recurso.");
+        } else {
+            System.out.println(
+                "Ingrese la cantidad de personas que van:"
+            );
+
+            int cantidad = leerEntero();
+
+            try {
+                recurso.validarCapacidad(cantidad);
+
+                if (usuarioActual.realizarReserva(recurso, cantidad)) {
+                    System.out.println(
+                        "Reserva realizada correctamente."
+                    );
+                } else {
+                   System.out.println(
+                        "No se pudo realizar la reserva."
+                    );
+                }
+
+            } catch (CapacidadExcedidaException |
+                     IllegalArgumentException e) {
+
+                System.out.println(e.getMessage());
+            }
+        }
+
         continuar();
-        return;
     }
-
-    System.out.print("ID del recurso que desea reservar: ");
-    String idReserva = br.readLine();
-
-    Recurso recurso = parque.buscarRecurso(idReserva);
-
-    if (recurso == null) {
-        System.out.println("No existe ese recurso.");
-    }
-    else {
-        System.out.println("Ingrese la cantidad de personas que van:");
-        int cantidad = leerEntero();
-        usuarioActual.realizarReserva(recurso, cantidad);
-        System.out.println("Reserva realizada correctamente.");
-    }
-    continuar();
-}
 
     private void cancelarReserva() throws IOException {
         if (usuarioActual == null) {
@@ -130,11 +150,14 @@ public class MenuConsola {
         System.out.print("ID de la reserva a cancelar: ");
         String idCancelar = br.readLine();
 
-        if (usuarioActual.cancelarReserva(idCancelar)) {
-            System.out.println("Reserva cancelada correctamente.");
-        }
-        else {
-            System.out.println("No se encontró esa reserva.");
+        try {
+            usuarioActual.cancelarReserva(idCancelar);
+
+            System.out.println(
+                "Reserva cancelada correctamente."
+            );
+        } catch (ReservaNoEncontradaException e) {
+            System.out.println(e.getMessage());
         }
 
         continuar();
@@ -265,13 +288,23 @@ public class MenuConsola {
             System.out.print("Ingrese la nueva cantidad de personas: ");
             int nuevaCantidad = leerEntero();
 
-            if (reservaModificar.cambiarCantidad(nuevaCantidad)) {
-                System.out.println("Cantidad de personas modificada correctamente.");
-            } else {
-                System.out.println("No se pudo modificar la cantidad.");
+            try {
+                if (reservaModificar.cambiarCantidad(nuevaCantidad)) {
+                    System.out.println(
+                        "Cantidad de personas modificada correctamente."
+                    );
+                } else {
+                    System.out.println(
+                        "La cantidad debe ser mayor a 0."
+                    );
+                }
+
+            } catch (CapacidadExcedidaException e) {
+                System.out.println(e.getMessage());
             }
-        }
+
         continuar();
+        }
     }
 
     private void aprobarPermisoReserva() throws IOException {
@@ -407,14 +440,16 @@ public class MenuConsola {
     }
 
     private int leerEntero() throws IOException {
-    while (true) {
-        try {
-            return Integer.parseInt(br.readLine().trim());
-        } catch (NumberFormatException e) {
-            System.out.print("Entrada inválida. Ingrese un número: ");
+        while (true) {
+            try {
+                return Integer.parseInt(br.readLine().trim());
+            } catch (NumberFormatException e) {
+                System.out.print(
+                    "Entrada inválida. Ingrese un número: "
+                );
+            }
         }
     }
-
 
     private void limpiarPantalla() {
         System.out.print("\033[H\033[2J");
