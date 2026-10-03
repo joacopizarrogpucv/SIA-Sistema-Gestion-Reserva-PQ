@@ -2,12 +2,36 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-
-
+/**
+ * Implementa la interfaz de usuario mediante consola.
+ * Permite acceder a las funcionalidades de usuarios,
+ * reservas y recursos del parque.
+ */
 public class MenuConsola {
     private Parque parque;
     private Usuario usuarioActual;
     private BufferedReader br;
+
+    public Parque getParque() {
+        return parque;
+    }
+    public void setParque(Parque parque) {
+        this.parque = parque;
+    }
+
+    public Usuario getUsuarioActual() {
+        return usuarioActual;
+    }
+    public void setUsuarioActual(Usuario usuarioActual) {
+        this.usuarioActual = usuarioActual;
+    }
+
+    public BufferedReader getBr() {
+        return br;
+    }
+    public void setBr(BufferedReader br) {
+        this.br = br;
+    }
 
     public MenuConsola(Parque parque) {
         this.parque = parque;
@@ -31,45 +55,45 @@ public class MenuConsola {
             System.out.println("4. Ingresar / Crear Usuario");
             System.out.println("5. Gestionar Reservas");
             System.out.println("6. Gestionar Usuarios");
-            System.out.println("7. Salir");
+            System.out.println("7. Buscar Recursos por Capacidad");
+            System.out.println("8. Salir");
             System.out.print("Opcion: ");
 
-            opcion = leerEntero();
-            try {
-                switch (opcion) {
-                    case 1:
-                        reservar();
-                        break;
-                    case 2:
-                        cancelarReserva();
-                        break;
-                    case 3:
-                        buscarRecurso();
-                        break;
-                    case 4:
-                        crearUsuario();
-                        break;
-                    case 5:
-                        gestionarReservas();
-                        break;
-                    case 6:
-                        gestionarUsuarios();
-                        break;
-                    case 7:
-                        limpiarPantalla();
-                        System.out.println("Saliendo del programa...");
-                        break;
-                    default:
-                        limpiarPantalla();
-                        System.out.println("Opción no válida.");
-                        continuar();
-                        break;
-                }
-            } catch (CapacidadExcedidaException | ReservaNoEncontradaException e) {
-                System.out.println(e.getMessage());
-                continuar();
+            opcion = Integer.parseInt(br.readLine());
+            switch (opcion) {
+                case 1:
+                    reservar();
+                    break;
+                case 2:
+                    cancelarReserva();
+                    break;
+                case 3:
+                    buscarRecurso();
+                    break;
+                case 4:
+                    crearUsuario();
+                    break;
+                case 5:
+                    gestionarReservas();
+                    break;
+                case 6:
+                    gestionarUsuarios();
+                    break;
+                case 7:
+                    buscarRecursosPorCapacidad();
+                    break;
+                case 8:
+                    limpiarPantalla();
+                    System.out.println("Saliendo del programa...");
+                    break;
+                default:
+                    limpiarPantalla();
+                    System.out.println("Opción no válida.");
+                    continuar();
+                    break;
             }
-        } while (opcion != 7);
+
+        } while (opcion !=8);
     }
 
     private void reservar() throws IOException {
@@ -362,6 +386,17 @@ public class MenuConsola {
         } else {
             System.out.println("Usuario no encontrado.");
         }
+
+        continuar();
+    }
+
+    private void buscarRecursosPorCapacidad() throws IOException {
+        limpiarPantalla();
+
+        System.out.print("Ingrese la cantidad de personas: ");
+        int cantidadPersonas = Integer.parseInt(br.readLine());
+
+        parque.mostrarRecursosPorCapacidad(cantidadPersonas);
 
         continuar();
     }

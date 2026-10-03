@@ -2,7 +2,10 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-
+/**
+ * Responsable de cargar desde archivos CSV los datos iniciales
+ * utilizados por el sistema.
+ */
 public class Lector {
 
     public static Parque leerParque(String nombreArchivo) {
@@ -22,7 +25,7 @@ public class Lector {
                     continue;
                 }
                 if (datos[0].equalsIgnoreCase("PARQUE")) {
-                    parque = new Parque(datos[1], datos[3]);
+                    parque = new Parque(datos[1], datos[4]);
                 }
                 else if (datos[0].equalsIgnoreCase("CABANA")) {
                     String nombre = datos[1];
@@ -65,6 +68,12 @@ public class Lector {
         }
     }
 
+    /**
+     * Carga los usuarios almacenados en un archivo CSV.
+     *
+     * @param nombreArchivo nombre del archivo a leer
+     * @param parque parque donde se registrarán los usuarios
+     */
     public static void leerUsuarios(String nombreArchivo, Parque parque) {
         try {
             BufferedReader archivo = new BufferedReader(new FileReader(nombreArchivo));
@@ -127,13 +136,14 @@ public class Lector {
 
                 Usuario usuario = parque.buscarUsuario(rut);
                 Recurso recurso = parque.buscarRecurso(idRecurso);
+                boolean permisoAprobado = false;
+
+                if (datos.length >= 4) {
+                    permisoAprobado = Boolean.parseBoolean(datos[3]);
+                }
 
                 if (usuario != null && recurso != null && cantidad > 0) {
-                    try {
-                        usuario.realizarReserva(recurso, cantidad);
-                    } catch (CapacidadExcedidaException e) {
-                        System.out.println("Reserva ignorada (" + rut + "): " + e.getMessage());
-                    }
+                    usuario.realizarReserva(recurso, cantidad, permisoAprobado);
                 }
             }
             archivo.close();

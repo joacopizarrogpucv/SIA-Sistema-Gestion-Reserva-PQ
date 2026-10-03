@@ -1,0 +1,7 @@
+rut;idRecurso;cantidad;permisoAprobado
+98765432-1;CAM1;2;false
+11222333-4;ACT1;1;false
+12345678-9;ACT2;2;false
+12345678-9;CAB1;3;true
+12345678-9;CAB1;3;true
+12345678-9;ACT1;2;false
