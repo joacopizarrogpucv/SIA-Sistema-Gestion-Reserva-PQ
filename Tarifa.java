@@ -5,6 +5,13 @@ public class Tarifa {
         this.precioBase = precioBase;
     }
 
+    public double getPrecioBase() {
+        return precioBase;
+    }
+    public void setPrecioBase(double precioBase) {
+        this.precioBase = precioBase;
+    }
+    
     public double calcular(int cantidadPersonas) {
         return precioBase * cantidadPersonas;
     }
@@ -15,10 +22,5 @@ public class Tarifa {
         return total - (total * descuento / 100.0);
     }
 
-    public double getPrecioBase() {
-        return precioBase;
-    }
-    public void setPrecioBase(double precioBase) {
-        this.precioBase = precioBase;
-    }
+    
 }

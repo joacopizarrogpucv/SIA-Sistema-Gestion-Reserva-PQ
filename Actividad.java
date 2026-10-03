@@ -2,16 +2,24 @@ public class Actividad extends Recurso {
     private String guia;
     private int duracion;
 
-    public Actividad(String n, String i, int c, String g, int d) {
-        super(n, i, c);
-        guia = g;
-        duracion = d;
+    public Actividad(String nombre, String id, int capacidad, String guia, int duracion) {
+        super(nombre, id, capacidad);
+        this.guia = guia;
+        this.duracion = duracion;
     }
+
     public String getGuia() {
         return guia;
     }
+    public void setGuia(String guia) {
+        this.guia = guia;
+    }
+
     public int getDuracion() {
         return duracion;
+    }
+    public void setDuracion(int duracion) {
+        this.duracion = duracion;
     }
 
     @Override

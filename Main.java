@@ -1,6 +1,11 @@
 import java.io.IOException;
 import javax.swing.JOptionPane;
 
+/**
+ * Punto de entrada de la aplicación.
+ * Carga los datos, permite seleccionar el modo de ejecución
+ * y guarda la información antes de finalizar.
+ */
 public class Main {
     
     public static void main(String[] args) throws IOException {

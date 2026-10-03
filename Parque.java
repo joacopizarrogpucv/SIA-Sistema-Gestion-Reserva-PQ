@@ -1,36 +1,56 @@
 import java.util.Map;
 import java.util.HashMap;
-
+/**
+ * Clase principal del dominio del sistema.
+ * Mantiene las colecciones de recursos y usuarios registrados.
+ */
 public class Parque {
     private String nombre;
     private String ubicacion;
-
     private  Map<String, Recurso> recursos;
     private  Map<String, Usuario> usuarios;
 
-    public Parque(String n, String u) {
-        nombre = n;
-        ubicacion = u;
-
-        recursos = new HashMap<String, Recurso>();
-        usuarios = new HashMap<String, Usuario>();
+    public Parque(String nombre, String ubicacion) {
+        this.nombre = nombre;
+        this.ubicacion = ubicacion;
+        this.recursos = new HashMap<String, Recurso>();
+        this.usuarios = new HashMap<String, Usuario>();
     }
-
-    public void setNombre(String n) {
-        nombre = n;
-    }
-
-    public void setUbicacion(String u) {
-        ubicacion = u;
-    }
-
     public String getNombre() {
         return nombre;
     }
-
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
     public String getUbicacion() {
         return ubicacion;
     }
+    public void setUbicacion(String ubicacion) {
+        this.ubicacion = ubicacion;
+    }
+
+    public Map<String, Recurso> getMapaRecursos() {
+        return recursos;
+    }
+    public void setRecursos(Map<String, Recurso> recursos) {
+        this.recursos = recursos;
+    }
+
+    public Map<String, Usuario> getMapaUsuarios() {
+        return usuarios;
+    }
+    public void setUsuarios(Map<String, Usuario> usuarios) {
+        this.usuarios = usuarios;
+    }
+
+    public Iterable<Usuario> getUsuarios() {
+        return usuarios.values();
+    }
+
+    public Iterable<Recurso> getRecursos() {
+        return recursos.values();
+    }
+
     public boolean agregarRecurso(Recurso r) {
         if (recursos.containsKey(r.getId())) {
             return false;
@@ -74,7 +94,13 @@ public class Parque {
         return true;
     }
 
-    public void mostrarRecursosporCapacidad(int cantidadPersonas) {
+    /**
+     * Muestra los recursos cuya capacidad permite recibir
+     * al número de personas indicado.
+     *
+     * @param cantidadPersonas tamaño del grupo
+     */
+    public void mostrarRecursosPorCapacidad(int cantidadPersonas) {
         boolean encontrado = false;
 
         System.out.println("Recursos disponibles para " + cantidadPersonas + " personas:");
@@ -90,13 +116,5 @@ public class Parque {
         if (!encontrado) {
             System.out.println("No hay recursos disponibles con capacidad suficiente.");
         }
-    }
-
-    public Iterable<Usuario> getUsuarios() {
-        return usuarios.values();
-    }
-
-    public Iterable<Recurso> getRecursos() {
-        return recursos.values();
     }
 }

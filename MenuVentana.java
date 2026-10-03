@@ -2,9 +2,27 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
+/**
+ * Implementa la interfaz gráfica del sistema mediante Swing.
+ * Ofrece las mismas funcionalidades disponibles en el modo consola.
+ */
 public class MenuVentana {
     private Parque parque;
     private Usuario usuarioActual;
+
+    public Parque getParque() {
+        return parque;
+    }
+    public void setParque(Parque parque) {
+        this.parque = parque;
+    }
+
+    public Usuario getUsuarioActual() {
+        return usuarioActual;
+    }
+    public void setUsuarioActual(Usuario usuarioActual) {
+        this.usuarioActual = usuarioActual;
+    }
 
     public MenuVentana(Parque parque) {
         this.parque = parque;

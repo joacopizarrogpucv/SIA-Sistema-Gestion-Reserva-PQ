@@ -2,12 +2,36 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-
-
+/**
+ * Implementa la interfaz de usuario mediante consola.
+ * Permite acceder a las funcionalidades de usuarios,
+ * reservas y recursos del parque.
+ */
 public class MenuConsola {
     private Parque parque;
     private Usuario usuarioActual;
     private BufferedReader br;
+
+    public Parque getParque() {
+        return parque;
+    }
+    public void setParque(Parque parque) {
+        this.parque = parque;
+    }
+
+    public Usuario getUsuarioActual() {
+        return usuarioActual;
+    }
+    public void setUsuarioActual(Usuario usuarioActual) {
+        this.usuarioActual = usuarioActual;
+    }
+
+    public BufferedReader getBr() {
+        return br;
+    }
+    public void setBr(BufferedReader br) {
+        this.br = br;
+    }
 
     public MenuConsola(Parque parque) {
         this.parque = parque;
@@ -379,7 +403,7 @@ public class MenuConsola {
         System.out.print("Ingrese la cantidad de personas: ");
         int cantidadPersonas = Integer.parseInt(br.readLine());
 
-        parque.mostrarRecursosporCapacidad(cantidadPersonas);
+        parque.mostrarRecursosPorCapacidad(cantidadPersonas);
 
         continuar();
     }

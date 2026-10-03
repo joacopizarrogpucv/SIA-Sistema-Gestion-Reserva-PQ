@@ -2,7 +2,10 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-
+/**
+ * Responsable de cargar desde archivos CSV los datos iniciales
+ * utilizados por el sistema.
+ */
 public class Lector {
 
     public static Parque leerParque(String nombreArchivo) {
@@ -65,6 +68,12 @@ public class Lector {
         }
     }
 
+    /**
+     * Carga los usuarios almacenados en un archivo CSV.
+     *
+     * @param nombreArchivo nombre del archivo a leer
+     * @param parque parque donde se registrarán los usuarios
+     */
     public static void leerUsuarios(String nombreArchivo, Parque parque) {
         try {
             BufferedReader archivo = new BufferedReader(new FileReader(nombreArchivo));

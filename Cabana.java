@@ -1,21 +1,25 @@
 public class Cabana extends Recurso {
-    private int habitacion;
+    private int habitaciones;
 
-    public Cabana(String n, String i, int c, int a) {
-        super(n, i, c);
-        habitacion = a;
+    public Cabana(String nombre, String id, int capacidad, int habitaciones) {
+        super(nombre, id, capacidad);
+        this.habitaciones = habitaciones;
     }
 
-    public int gethabitacion() {
-        return habitacion;
+    public int getHabitaciones() {
+        return habitaciones;
     }
 
+    public void setHabitaciones(int habitaciones) {
+        this.habitaciones = habitaciones;
+    }
+    
     @Override
     public String obtenerDescripcion() {
         return "Nombre: " + getNombre() + "\n" +
                "ID: " + getId() + "\n" +
                "Capacidad: " + getCapacidad() + " personas\n" +
-               "Habitaciones: " + habitacion;
+               "Habitaciones: " + habitaciones;
     }
     
     @Override

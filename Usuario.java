@@ -1,24 +1,25 @@
 import java.util.Map;
-import java.io.BufferedReader;
-import java.io.IOException;
 import java.util.HashMap;
 
+/**
+ * Representa a un usuario del sistema.
+ * Cada usuario mantiene su propia colección de reservas,
+ * identificadas mediante el ID de la reserva.
+ */
 public class Usuario {
     private String nombre;
     private String rut;
-
     private Map<String, Reserva> reservas;
 
-    public Usuario(String n, String r) {
-        nombre = n;
-        rut = r;
-        reservas = new HashMap<String, Reserva>();
+    public Usuario(String nombre, String rut) {
+        this.nombre = nombre;
+        this.rut = rut;
+        this.reservas = new HashMap<String, Reserva>();
     }
 
     public String getNombre() {
         return nombre;
     }
-
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
@@ -26,13 +27,43 @@ public class Usuario {
     public String getRut() {
         return rut;
     }
-
-    public boolean realizarReserva(Recurso r, int cantidad) {
-        return realizarReserva(r, cantidad, false);
+    public void setRut(String rut) {
+        this.rut = rut;
     }
 
-    public boolean realizarReserva(Recurso r, int cantidad, boolean permisoAprobado) {
-        Reserva R = new Reserva(cantidad, r, new Tarifa(200), true);
+    public Map<String, Reserva> getReservasMap() {
+        return reservas;
+    }
+    public void setReservasMap(Map<String, Reserva> reservas) {
+        this.reservas = reservas;
+    }
+
+    public Iterable<Reserva> getReservas() {
+        return reservas.values();
+    }
+
+    /**
+     * Crea una nueva reserva para el usuario.
+     *
+     * @param recurso recurso que será reservado
+     * @param cantidad número de personas
+     * @return true si la reserva pudo ser creada
+     */
+    public boolean realizarReserva(Recurso recurso, int cantidad) {
+        return realizarReserva(recurso, cantidad, false);
+    }
+
+    /**
+     * Crea una reserva permitiendo indicar el estado inicial del permiso.
+     * Esta versión es utilizada principalmente durante la carga desde archivo.
+     *
+     * @param recurso recurso reservado
+     * @param cantidad número de personas
+     * @param permisoAprobado estado inicial del permiso
+     * @return true si la reserva pudo ser creada
+     */
+    public boolean realizarReserva(Recurso recurso, int cantidad, boolean permisoAprobado) {
+        Reserva R = new Reserva(cantidad, recurso, new Tarifa(200), true);
         
         R.getPermiso().setAprobado(permisoAprobado);
         
@@ -102,9 +133,5 @@ public class Usuario {
 
         reserva.getPermiso().rechazar();
         return true;
-    }
-
-    public Iterable<Reserva> getReservas() {
-        return reservas.values();
     }
 }
