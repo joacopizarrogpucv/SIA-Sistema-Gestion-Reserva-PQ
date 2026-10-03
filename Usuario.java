@@ -28,6 +28,9 @@ public class Usuario {
     }
 
     public boolean realizarReserva(Recurso r, int cantidad) {
+        if (!r.hayDisponibilidad(cantidad)) {
+            throw new CapacidadExcedidaException(r.getNombre(), cantidad, r.getCapacidad());
+        }
         Reserva R = new Reserva(cantidad, r, new Tarifa(200), true);
         reservas.put(R.getId(), R);
         return true;
@@ -59,9 +62,8 @@ public class Usuario {
     }
 
     public boolean cancelarReserva(String id) {
-
         if (!reservas.containsKey(id)) {
-            return false;
+            throw new ReservaNoEncontradaException(id);
         }
 
         reservas.remove(id);

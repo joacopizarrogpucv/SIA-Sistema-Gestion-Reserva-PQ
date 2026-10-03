@@ -19,5 +19,6 @@ public abstract class Recurso {
     public boolean hayDisponibilidad(int cantidad) {
         return cantidad <= capacidad;
     }
+
     public abstract void mostrarRecurso();
 }

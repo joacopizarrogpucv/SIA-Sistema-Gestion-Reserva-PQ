@@ -34,70 +34,67 @@ public class MenuConsola {
             System.out.println("7. Salir");
             System.out.print("Opcion: ");
 
-            opcion = Integer.parseInt(br.readLine());
-            switch (opcion) {
-                case 1:
-                    reservar();
-                    break;
-                case 2:
-                    cancelarReserva();
-                    break;
-                case 3:
-                    buscarRecurso();
-                    break;
-                case 4:
-                    crearUsuario();
-                    break;
-                case 5:
-                    gestionarReservas();
-                    break;
-                case 6:
-                    gestionarUsuarios();
-                    break;
-                case 7:
-                    limpiarPantalla();
-                    System.out.println("Saliendo del programa...");
-                    break;
-                default:
-                    limpiarPantalla();
-                    System.out.println("Opción no válida.");
-                    continuar();
-                    break;
+            opcion = leerEntero();
+            try {
+                switch (opcion) {
+                    case 1:
+                        reservar();
+                        break;
+                    case 2:
+                        cancelarReserva();
+                        break;
+                    case 3:
+                        buscarRecurso();
+                        break;
+                    case 4:
+                        crearUsuario();
+                        break;
+                    case 5:
+                        gestionarReservas();
+                        break;
+                    case 6:
+                        gestionarUsuarios();
+                        break;
+                    case 7:
+                        limpiarPantalla();
+                        System.out.println("Saliendo del programa...");
+                        break;
+                    default:
+                        limpiarPantalla();
+                        System.out.println("Opción no válida.");
+                        continuar();
+                        break;
+                }
+            } catch (CapacidadExcedidaException | ReservaNoEncontradaException e) {
+                System.out.println(e.getMessage());
+                continuar();
             }
-
         } while (opcion != 7);
     }
 
     private void reservar() throws IOException {
-        if (usuarioActual == null) {
-            System.out.println("Primero debe crear un usuario.");
-            continuar();
-            return;
-        }
-
-        System.out.print("ID del recurso que desea reservar: ");
-        String idReserva = br.readLine();
-
-        Recurso recurso = parque.buscarRecurso(idReserva);
-
-        if (recurso == null) {
-            System.out.println("No existe ese recurso.");
-        }
-        else{
-            System.out.println("Ingrese la cantidad de personas que van:");
-            int cantidad = Integer.parseInt(br.readLine());
-            if (!recurso.hayDisponibilidad(cantidad)) {
-            System.out.println("No existe capacidad suficiente.");
-            }
-            else if (usuarioActual.realizarReserva(recurso, cantidad)) {
-                System.out.println("Reserva realizada correctamente.");
-            }
-            else {
-                System.out.println("No se pudo realizar la reserva.");
-            }
-        }
+    if (usuarioActual == null) {
+        System.out.println("Primero debe crear un usuario.");
         continuar();
+        return;
     }
+
+    System.out.print("ID del recurso que desea reservar: ");
+    String idReserva = br.readLine();
+
+    Recurso recurso = parque.buscarRecurso(idReserva);
+
+    if (recurso == null) {
+        System.out.println("No existe ese recurso.");
+    }
+    else {
+        System.out.println("Ingrese la cantidad de personas que van:");
+        int cantidad = leerEntero();
+        usuarioActual.realizarReserva(recurso, cantidad);
+        System.out.println("Reserva realizada correctamente.");
+    }
+    continuar();
+}
 
     private void cancelarReserva() throws IOException {
         if (usuarioActual == null) {
@@ -188,7 +185,7 @@ public class MenuConsola {
             System.out.println("6. Atrás (Volver al menú principal)");
             System.out.print("Opcion: ");
 
-            opcion = Integer.parseInt(br.readLine());
+            opcion = leerEntero();
             switch (opcion) {
                 case 1:
                     usuarioActual.listarReservas();
@@ -242,7 +239,7 @@ public class MenuConsola {
             System.out.println("Reserva no encontrada.");
         } else {
             System.out.print("Ingrese la nueva cantidad de personas: ");
-            int nuevaCantidad = Integer.parseInt(br.readLine());
+            int nuevaCantidad = leerEntero();
 
             if (reservaModificar.cambiarCantidad(nuevaCantidad)) {
                 System.out.println("Cantidad de personas modificada correctamente.");
@@ -293,7 +290,7 @@ public class MenuConsola {
             System.out.println("5. Atrás (Volver al menú principal)");
             System.out.print("Opcion: ");
 
-            opcion = Integer.parseInt(br.readLine());
+            opcion = leerEntero();
             switch (opcion) {
                 case 1:
                     parque.listarUsuarios();
@@ -373,6 +370,16 @@ public class MenuConsola {
         System.out.println("Presiona ENTER para continuar...");
         br.readLine();
     }
+
+    private int leerEntero() throws IOException {
+    while (true) {
+        try {
+            return Integer.parseInt(br.readLine().trim());
+        } catch (NumberFormatException e) {
+            System.out.print("Entrada inválida. Ingrese un número: ");
+        }
+    }
+
 
     private void limpiarPantalla() {
         System.out.print("\033[H\033[2J");

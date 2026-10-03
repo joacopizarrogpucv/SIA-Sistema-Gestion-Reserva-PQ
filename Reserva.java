@@ -45,13 +45,16 @@ public class Reserva {
         this.permiso = permiso;
     }
 
-    public boolean cambiarCantidad(int nuevaCantidad) {
+    public boolean cambiarCantidad(int nuevaCantidad) throws CapacidadExcedidaException{
         if (nuevaCantidad <= 0) {
             return false;
         }
 
-        if (!recurso.hayDisponibilidad(nuevaCantidad)) {
-            return false;
+        if (nuevaCantidad <= 0) {
+            throw new IllegalArgumentException("La cantidad debe ser mayor a 0.");
+        }
+        recurso.validarCapacidad(nuevaCantidad);
+        cantidad = nuevaCantidad;
         }
 
         cantidad = nuevaCantidad;

@@ -110,13 +110,30 @@ public class Lector {
                 if (datos[0].equalsIgnoreCase("rut")) {
                     continue;
                 }
-                String rut = datos[0];
-                String idRecurso = datos[1];
-                int cantidad = Integer.parseInt(datos[2]);
+                if (datos.length < 3) {
+                    System.out.println("Fila ignorada (formato inválido): " + linea);
+                    continue;
+                }
+
+                String rut = datos[0].trim();
+                String idRecurso = datos[1].trim();
+                int cantidad;
+                try {
+                    cantidad = Integer.parseInt(datos[2].trim());
+                } catch (NumberFormatException e) {
+                    System.out.println("Fila ignorada (cantidad inválida): " + linea);
+                    continue;
+                }
+
                 Usuario usuario = parque.buscarUsuario(rut);
                 Recurso recurso = parque.buscarRecurso(idRecurso);
+
                 if (usuario != null && recurso != null && cantidad > 0) {
-                    usuario.realizarReserva(recurso, cantidad);
+                    try {
+                        usuario.realizarReserva(recurso, cantidad);
+                    } catch (CapacidadExcedidaException e) {
+                        System.out.println("Reserva ignorada (" + rut + "): " + e.getMessage());
+                    }
                 }
             }
             archivo.close();
