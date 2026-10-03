@@ -1,5 +1,7 @@
 import java.util.Map;
 import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 /**
  * Clase principal del dominio del sistema.
  * Mantiene las colecciones de recursos y usuarios registrados.
@@ -93,6 +95,25 @@ public class Parque {
         usuarios.remove(rut);
         return true;
     }
+    /**
+     * Obtiene los recursos capaces de recibir una cantidad determinada
+     * de personas.
+     *
+     * @param cantidadPersonas tamaño del grupo
+     * @return lista de recursos con capacidad suficiente
+     */
+    public List<Recurso> filtrarRecursosPorCapacidad(int cantidadPersonas) {
+        List<Recurso> recursosDisponibles = new ArrayList<Recurso>();
+
+        for (Recurso recurso : recursos.values()) {
+            if (recurso.hayDisponibilidad(cantidadPersonas)) {
+                recursosDisponibles.add(recurso);
+            }
+        }
+
+        return recursosDisponibles;
+    }
+    
 
     /**
      * Muestra los recursos cuya capacidad permite recibir
@@ -101,20 +122,24 @@ public class Parque {
      * @param cantidadPersonas tamaño del grupo
      */
     public void mostrarRecursosPorCapacidad(int cantidadPersonas) {
-        boolean encontrado = false;
+        List<Recurso> recursosDisponibles = filtrarRecursosPorCapacidad(cantidadPersonas);
 
-        System.out.println("Recursos disponibles para " + cantidadPersonas + " personas:");
+        System.out.println(
+            "Recursos disponibles para " +
+            cantidadPersonas +
+            " personas:"
+        );
 
-        for (Recurso recurso : recursos.values()) {
-            if (recurso.hayDisponibilidad(cantidadPersonas)) {
-                recurso.mostrarRecurso();
-                System.out.println("--------------------");
-                encontrado = true;
-            }
+        if (recursosDisponibles.isEmpty()) {
+            System.out.println(
+                "No hay recursos disponibles con capacidad suficiente."
+            );
+            return;
         }
 
-        if (!encontrado) {
-            System.out.println("No hay recursos disponibles con capacidad suficiente.");
+        for (Recurso recurso : recursosDisponibles) {
+            recurso.mostrarRecurso();
+            System.out.println("--------------------");
         }
     }
 }

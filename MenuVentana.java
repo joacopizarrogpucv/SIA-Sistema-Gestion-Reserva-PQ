@@ -441,12 +441,12 @@ public class MenuVentana {
         texto.append("Recursos disponibles para ").append(cantidad).append(" personas:\n\n");
 
         boolean encontrado = false;
-        for (Recurso recurso : parque.getRecursos()) {
-            if (recurso.hayDisponibilidad(cantidad)) {
-                texto.append(recurso.obtenerDescripcion());
-                texto.append("\n------------------------------\n");
-                encontrado = true;
-            }
+        for (Recurso recurso :
+            parque.filtrarRecursosPorCapacidad(cantidad)) {
+
+            texto.append(recurso.obtenerDescripcion());
+            texto.append("\n------------------------------\n");
+            encontrado = true;
         }
 
         if (!encontrado) {

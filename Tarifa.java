@@ -11,9 +11,9 @@ public class Tarifa {
     public void setPrecioBase(double precioBase) {
         this.precioBase = precioBase;
     }
-    
+
     public double calcular(int cantidadPersonas) {
-        return precioBase * cantidadPersonas;
+        return calcular(cantidadPersonas, 0.0);
     }
 
     // Sobrecarga, permite aplicar un descuento porcentual
